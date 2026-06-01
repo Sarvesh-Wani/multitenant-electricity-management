@@ -10,6 +10,7 @@ import lombok.Setter;
 @Builder
 public class CompanyResponse {
 
+    private Long id;
     private String companyName;
 
     private String tenantId;

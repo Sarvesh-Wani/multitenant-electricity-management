@@ -18,7 +18,7 @@ public class HibernateConfig {
     private final MultiTenantConnectionProviderImpl multiTenantConnectionProvider;
 
     @Bean
-    LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 
         factory.setDataSource(dataSource);
@@ -26,11 +26,9 @@ public class HibernateConfig {
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Properties props = new Properties();
-        props.put(Environment.DIALECT,
-                "org.hibernate.dialect.PostgreSQLDialect");
+        props.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
         props.put(Environment.SHOW_SQL, true);
         props.put(Environment.FORMAT_SQL, true);
-        props.put(Environment.HBM2DDL_AUTO, "validate");
         props.put(Environment.DEFAULT_SCHEMA, "public");
 
         props.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
