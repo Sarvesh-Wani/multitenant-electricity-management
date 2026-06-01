@@ -14,7 +14,6 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider {
 
-
     private final DataSource dataSource;
 
     @Override
