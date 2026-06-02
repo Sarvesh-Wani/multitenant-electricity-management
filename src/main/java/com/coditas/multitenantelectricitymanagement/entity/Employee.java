@@ -27,8 +27,7 @@ public class Employee {
     @Column(name = "city")
     private String city;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private AppUser user;
+    @Column(name = "user_id")
+    private Long user_id;
 
 }

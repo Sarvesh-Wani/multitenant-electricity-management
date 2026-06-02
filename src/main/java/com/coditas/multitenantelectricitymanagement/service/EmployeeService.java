@@ -28,6 +28,7 @@ public class EmployeeService {
         AppUser user = appUserMapper.toEntity(request.getUser());
 
         AppUser savedUser = appUserRepository.save(user);
+        employee.setUser_id(savedUser.getId());
         Employee savedEmployee = employeeRepository.save(employee);
 
         return employeeMapper.toDTO(savedEmployee);

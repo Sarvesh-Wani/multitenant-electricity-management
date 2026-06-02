@@ -29,8 +29,6 @@ public class HibernateConfig {
         props.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
         props.put(Environment.SHOW_SQL, true);
         props.put(Environment.FORMAT_SQL, true);
-        props.put(Environment.DEFAULT_SCHEMA, "public");
-
         props.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         props.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
 

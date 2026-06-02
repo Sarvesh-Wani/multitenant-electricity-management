@@ -16,8 +16,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping("/employees")
-    public ResponseEntity<EmployeeRegisterResponse> registerEmployee(@RequestBody EmployeeRegisterRequest request,
-                                                                     @RequestParam("tenant") String tenant) {
+    public ResponseEntity<EmployeeRegisterResponse> registerEmployee(@RequestBody EmployeeRegisterRequest request) {
         EmployeeRegisterResponse response = employeeService.registerEmployee(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

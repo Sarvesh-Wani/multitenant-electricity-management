@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "app_user")
+@Table(name = "app_user", schema = "public")
 public class AppUser {
 
     @Id

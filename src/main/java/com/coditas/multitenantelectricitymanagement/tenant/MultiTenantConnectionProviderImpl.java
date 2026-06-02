@@ -33,7 +33,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
         try {
             connection.createStatement().execute("SET search_path = " + tenantId);
-            log.debug("search_path set to: {}", tenantIdentifier);
+            log.debug("search_path set to: {}", tenantId);
         } catch (SQLException e) {
             connection.close();
             throw e;
