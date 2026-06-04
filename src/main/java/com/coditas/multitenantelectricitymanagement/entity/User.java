@@ -1,10 +1,10 @@
 package com.coditas.multitenantelectricitymanagement.entity;
 
-import com.coditas.multitenantelectricitymanagement.enums.CompanyStatus;
+import com.coditas.multitenantelectricitymanagement.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -12,34 +12,36 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
-@Table(name = "client_company", schema = "public")
-public class ClientCompany {
+@Table(name = "users", schema = "public")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "company_name", nullable = false)
-    private String companyName;
+    @Column(name = "name")
+    private String Name;
 
-    @Column(name = "tenant_id", unique = true)
-    private String tenantId;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.ENUM)
-    @Column(name = "status", columnDefinition = "public.company_status")
-    private CompanyStatus status;
+    @Column(name = "role", columnDefinition = "user_role")
+    private Role role;
 
-    @OneToOne
-    @JoinColumn(name = "sales_team_id")
-    private User salesTeamMember;
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
 
