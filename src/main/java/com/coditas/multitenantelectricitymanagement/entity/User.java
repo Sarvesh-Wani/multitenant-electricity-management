@@ -22,7 +22,7 @@ public class User {
     private Long id;
 
     @Column(name = "name")
-    private String Name;
+    private String name;
 
     @Column(name = "username", nullable = false)
     private String username;
@@ -34,12 +34,12 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.ENUM)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "role", columnDefinition = "user_role")
     private Role role;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    @Column(name = "is_active")
+    private Boolean isActive=true;
 
     @CreationTimestamp
     @Column(name = "created_at")

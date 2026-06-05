@@ -3,5 +3,6 @@ package com.coditas.multitenantelectricitymanagement.enums;
 public enum Role {
     BPO,
     SUPER_ADMIN,
-    CLIENT_OPERATIONS
+    CLIENT_OPERATIONS,
+    MANAGER
 }

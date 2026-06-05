@@ -1,6 +1,5 @@
-package com.coditas.multitenantelectricitymanagement.dto;
+package com.coditas.multitenantelectricitymanagement.dto.user;
 
-import com.coditas.multitenantelectricitymanagement.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -13,6 +12,9 @@ import lombok.Setter;
 public class UserRequest {
 
     @NotBlank
+    private String name;
+
+    @NotBlank
     private String username;
 
     @NotBlank
@@ -22,8 +24,4 @@ public class UserRequest {
     @Size(min = 4)
     private String password;
 
-    @NotBlank
-    private String tenantId;
-
-    private Role role;
 }
