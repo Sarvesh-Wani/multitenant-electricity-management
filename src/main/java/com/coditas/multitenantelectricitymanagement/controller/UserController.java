@@ -22,7 +22,7 @@ public class UserController {
     @PostMapping(ApiPath.SuperAdmin.ONBOARD_MANAGEMENT_TEAM_MEMBER)
     public ResponseEntity<ApplicationResponse<UserResponse>> onBoardManagementTeamMember(@Valid @RequestBody UserRequest request) {
 
-        UserResponse response = userService.createUser(request);
+        UserResponse response = userService.createManagementTeamMember(request);
 
         URI location = URI.create(ApiPath.BASE_PATH);
 
@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping(ApiPath.SuperAdmin.ONBOARD_SALES_TEAM_MEMBER)
     public ResponseEntity<ApplicationResponse<UserResponse>> onBoardSalesTeamMember(@Valid @RequestBody UserRequest request) {
 
-        UserResponse response = userService.createUser(request);
+        UserResponse response = userService.createSalesTeamMember(request);
         URI location = URI.create(ApiPath.BASE_PATH);
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()

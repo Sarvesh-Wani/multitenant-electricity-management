@@ -20,7 +20,16 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponse createUser(UserRequest request) {
+    public UserResponse createManagementTeamMember(UserRequest request) {
+
+        User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.MANAGER);
+        User savedUser = userRepository.save(user);
+        return userMapper.toDTO(savedUser);
+    }
+
+    public UserResponse createSalesTeamMember(UserRequest request) {
 
         User user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));

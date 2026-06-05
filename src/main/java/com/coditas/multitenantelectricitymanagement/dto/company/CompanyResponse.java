@@ -1,4 +1,4 @@
-package com.coditas.multitenantelectricitymanagement.dto;
+package com.coditas.multitenantelectricitymanagement.dto.company;
 
 import com.coditas.multitenantelectricitymanagement.enums.CompanyStatus;
 import lombok.Builder;

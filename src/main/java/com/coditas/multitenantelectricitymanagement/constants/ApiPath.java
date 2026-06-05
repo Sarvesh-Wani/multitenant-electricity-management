@@ -5,6 +5,7 @@ public final class ApiPath {
     private ApiPath(){}
 
     public static final String BASE_PATH = "/api/v1";
+    public static final String LOGIN = "/login";
 
     public static class SalesTeam{
         private SalesTeam(){}
