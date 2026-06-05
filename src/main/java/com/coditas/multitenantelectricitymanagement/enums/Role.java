@@ -4,5 +4,6 @@ public enum Role {
     BPO,
     SUPER_ADMIN,
     CLIENT_OPERATIONS,
-    MANAGER
+    MANAGER,
+    SALES_TEAM_MEMBER
 }

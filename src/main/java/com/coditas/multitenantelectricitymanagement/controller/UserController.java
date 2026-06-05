@@ -8,10 +8,7 @@ import com.coditas.multitenantelectricitymanagement.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -37,5 +34,35 @@ public class UserController {
                         .build()
         );
     }
+
+    @PostMapping(ApiPath.SuperAdmin.ONBOARD_SALES_TEAM_MEMBER)
+    public ResponseEntity<ApplicationResponse<UserResponse>> onBoardSalesTeamMember(@Valid @RequestBody UserRequest request) {
+
+        UserResponse response = userService.createUser(request);
+        URI location = URI.create(ApiPath.BASE_PATH);
+        return ResponseEntity.created(location).body(
+                ApplicationResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("Onboarded a sales team member")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @GetMapping(ApiPath.SalesTeam.BASE+"/{id}")
+    public ResponseEntity<ApplicationResponse<UserResponse>> getUserById(@PathVariable Long id){
+        UserResponse response = userService.getUserById(id);
+
+        return ResponseEntity.ok().body(
+                ApplicationResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("Successfully retrieved a user")
+                        .data(response)
+                        .build()
+        );
+    }
+
+
+
 
 }
