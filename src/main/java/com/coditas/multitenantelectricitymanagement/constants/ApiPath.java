@@ -7,6 +7,13 @@ public final class ApiPath {
     public static final String BASE_PATH = "/api/v1";
     public static final String LOGIN = "/login";
 
+
+    public static class Task {
+        private Task(){}
+
+        public static final String SALES_TASK = "/sales-Task";
+    }
+
     public static class SalesTeam{
         private SalesTeam(){}
         public static final String BASE = "/sales-team";

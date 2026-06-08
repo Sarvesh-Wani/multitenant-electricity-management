@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -15,7 +16,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @Entity
 @Table(name = "sales_task_assignment", schema = "public")
-public class SalesTaskAssignment {
+public class SalesTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,17 +31,18 @@ public class SalesTaskAssignment {
     @JoinColumn(name = "sales_member_id")
     private User salesMember;
 
-    @Column(name = "task", nullable = false)
+    @Column(name = "Task", nullable = false)
     private String task;
 
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.ENUM)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", nullable = false, columnDefinition = "public.task_status")
     private TaskStatus status;
 
     @Column(name = "assigned_at")
     private Instant assignedAt;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
 
