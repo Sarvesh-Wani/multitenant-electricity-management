@@ -6,8 +6,10 @@ import com.coditas.multitenantelectricitymanagement.dto.salestask.SalesTaskRespo
 import com.coditas.multitenantelectricitymanagement.entity.SalesTask;
 import com.coditas.multitenantelectricitymanagement.entity.User;
 import com.coditas.multitenantelectricitymanagement.enums.TaskStatus;
+import com.coditas.multitenantelectricitymanagement.exception.DuplicateResourceException;
 import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundException;
 import com.coditas.multitenantelectricitymanagement.exception.UnAuthenticatedUserException;
+import com.coditas.multitenantelectricitymanagement.mapper.SalesTaskMapper;
 import com.coditas.multitenantelectricitymanagement.repository.SalesTaskRepository;
 import com.coditas.multitenantelectricitymanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +26,14 @@ public class SalesTaskService {
 
     private final SalesTaskRepository salesTaskRepository;
     private final UserRepository userRepository;
+    private final SalesTaskMapper salesTaskMapper;
 
     @Transactional
     public SalesTaskResponse createTask(SalesTaskRequest request) {
+
+        if (salesTaskRepository.existsByTask(request.getTask())) {
+            throw new DuplicateResourceException(ExceptionConstants.DUPLICATERESOURCE);
+        }
 
         SalesTask task = new SalesTask();
 
@@ -52,15 +59,7 @@ public class SalesTaskService {
         task.setStatus(TaskStatus.PENDING);
 
         SalesTask savedTask = salesTaskRepository.save(task);
-
-        return SalesTaskResponse.builder()
-                .id(savedTask.getId())
-                .manager("id: " + savedTask.getManager().getId() + " Name: " + savedTask.getManager().getName())
-                .salesMember("id: " + savedTask.getSalesMember().getId() + " Name: " + savedTask.getSalesMember().getName())
-                .task(savedTask.getTask())
-                .status(savedTask.getStatus())
-                .assignedAt(savedTask.getAssignedAt())
-                .createdAt(savedTask.getCreatedAt())
-                .build();
+        return salesTaskMapper.toDTO(savedTask);
+        
     }
 }

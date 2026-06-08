@@ -1,5 +1,6 @@
 package com.coditas.multitenantelectricitymanagement.dto.salestask;
 
+import com.coditas.multitenantelectricitymanagement.dto.user.UserResponse;
 import com.coditas.multitenantelectricitymanagement.enums.TaskStatus;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +15,9 @@ public class SalesTaskResponse {
 
     private String id;
 
-    private String manager;
+    private UserResponse manager;
 
-    private String salesMember;
+    private UserResponse salesMember;
 
     private String task;
 

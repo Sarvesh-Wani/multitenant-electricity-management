@@ -11,7 +11,7 @@ public final class ApiPath {
     public static class Task {
         private Task(){}
 
-        public static final String SALES_TASK = "/sales-Task";
+        public static final String SALES_TASK = "/sales-task";
     }
 
     public static class SalesTeam{
