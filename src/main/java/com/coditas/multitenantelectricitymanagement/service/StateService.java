@@ -1,0 +1,54 @@
+package com.coditas.multitenantelectricitymanagement.service;
+
+import com.coditas.multitenantelectricitymanagement.constants.ExceptionConstants;
+import com.coditas.multitenantelectricitymanagement.dto.state.StateHeadAssignmentRequest;
+import com.coditas.multitenantelectricitymanagement.dto.state.StateRequest;
+import com.coditas.multitenantelectricitymanagement.dto.state.StateResponse;
+import com.coditas.multitenantelectricitymanagement.entity.State;
+import com.coditas.multitenantelectricitymanagement.entity.User;
+import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundException;
+import com.coditas.multitenantelectricitymanagement.mapper.StateMapper;
+import com.coditas.multitenantelectricitymanagement.repository.StateRepostiory;
+import com.coditas.multitenantelectricitymanagement.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+
+@Service
+@RequiredArgsConstructor
+public class StateService {
+
+    private final StateRepostiory stateRepostiory;
+    private final StateMapper stateMapper;
+    private final UserRepository userRepository;
+
+    public StateResponse createState(StateRequest request) {
+
+        State state = stateMapper.toEntity(request);
+
+        State savedState = stateRepostiory.save(state);
+
+        return stateMapper.toDTO(savedState);
+
+    }
+
+    @Transactional
+    public StateResponse assignStateHead(Long stateId, StateHeadAssignmentRequest request) {
+
+        State state = stateRepostiory.findById(stateId).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCENOTFOUND)
+        );
+
+        User stateHead = userRepository.findById(request.getStateHeadId()).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCENOTFOUND)
+        );
+
+        state.setStateHead(stateHead);
+        state.setAssignedAt(Instant.now());
+
+        State updatedState = stateRepostiory.save(state);
+        return stateMapper.toDTO(updatedState);
+    }
+}
