@@ -60,6 +60,6 @@ public class SalesTaskService {
 
         SalesTask savedTask = salesTaskRepository.save(task);
         return salesTaskMapper.toDTO(savedTask);
-        
+
     }
 }
