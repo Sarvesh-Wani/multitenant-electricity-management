@@ -18,6 +18,7 @@ public final class ApiPath {
 
         public static final String ONBOARD_MANAGEMENT_TEAM_MEMBER = "/onboard-management-team-member";
         public static final String ONBOARD_SALES_TEAM_MEMBER = "/onboard-sales-team-member";
+        public static final String ONBOARD_SUPER_ADMIN = "/onboard-superadmin";
     }
 
 
