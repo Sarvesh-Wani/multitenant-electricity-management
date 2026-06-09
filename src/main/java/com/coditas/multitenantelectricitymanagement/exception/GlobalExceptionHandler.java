@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApplicationResponse<ErrorResponse>> handleDuplicateResource(DuplicateResourceException ex, HttpServletRequest http) {
 
         ErrorResponse response = new ErrorResponse();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(HttpStatus.CONFLICT.value());
         response.setMessage(ex.getMessage());
         response.setPath(http.getRequestURL().toString());
         response.setTimestamp(Instant.now());
@@ -72,12 +72,30 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApplicationResponse<ErrorResponse>> handleUnAuthenticatedUser(UnAuthenticatedUserException ex, HttpServletRequest http) {
 
         ErrorResponse response = new ErrorResponse();
-        response.setStatus(HttpStatus.CONFLICT.value());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setMessage(ex.getMessage());
         response.setPath(http.getRequestURL().toString());
         response.setTimestamp(Instant.now());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                ApplicationResponse.<ErrorResponse>builder()
+                        .success(false)
+                        .message("Exception occurred")
+                        .errors(response)
+                        .build()
+        );
+    }
+
+    @ExceptionHandler(RoleMisMatchException.class)
+    public ResponseEntity<ApplicationResponse<ErrorResponse>> handleUnAuthenticatedUser(RoleMisMatchException ex, HttpServletRequest http) {
+
+        ErrorResponse response = new ErrorResponse();
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setMessage(ex.getMessage());
+        response.setPath(http.getRequestURL().toString());
+        response.setTimestamp(Instant.now());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 ApplicationResponse.<ErrorResponse>builder()
                         .success(false)
                         .message("Exception occurred")
