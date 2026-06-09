@@ -3,6 +3,7 @@ package com.coditas.multitenantelectricitymanagement.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
@@ -30,6 +31,7 @@ public class City {
     @Column(name = "assigned_at")
     private Instant assignedAt;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
 

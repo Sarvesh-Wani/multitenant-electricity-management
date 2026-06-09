@@ -32,11 +32,12 @@ public final class ApiPath {
         public static final String ID = "/{id}";
     }
 
-    public static class SalesTeam {
-        private SalesTeam() {
+    public static class City {
+        private City() {
         }
 
-        public static final String BASE = "/sales-team";
+        public static final String BASE = BASE_PATH + "/cities";
+        public static final String ID = "/{id}";
     }
 
     public static class StateHead {
@@ -52,6 +53,21 @@ public final class ApiPath {
 
         public static final String DISTRICT_HEAD = BASE_PATH + "/district-head";
     }
+
+    public static class CityHead {
+        private CityHead() {
+        }
+
+        public static final String CITY_HEAD = BASE_PATH + "/city-head";
+    }
+
+    public static class SalesTeam {
+        private SalesTeam() {
+        }
+
+        public static final String BASE = "/sales-team";
+    }
+
 
     public static class SuperAdmin {
         private SuperAdmin() {
