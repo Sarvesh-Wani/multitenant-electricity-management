@@ -2,7 +2,7 @@ package com.coditas.multitenantelectricitymanagement.controller;
 
 import com.coditas.multitenantelectricitymanagement.constants.ApiPath;
 import com.coditas.multitenantelectricitymanagement.dto.ApplicationResponse;
-import com.coditas.multitenantelectricitymanagement.dto.state.StateHeadAssignmentRequest;
+import com.coditas.multitenantelectricitymanagement.dto.state.HeadAssignmentRequest;
 import com.coditas.multitenantelectricitymanagement.dto.state.StateRequest;
 import com.coditas.multitenantelectricitymanagement.dto.state.StateResponse;
 import com.coditas.multitenantelectricitymanagement.service.StateService;
@@ -26,7 +26,7 @@ public class StateController {
     public ResponseEntity<ApplicationResponse<StateResponse>> createState(@Valid @RequestBody StateRequest
                                                                                   request) {
         StateResponse response = stateService.createState(request);
-        URI location = URI.create(ApiPath.BASE_PATH);
+        URI location = URI.create(ApiPath.State.BASE);
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<StateResponse>builder()
                         .success(true)
@@ -39,7 +39,7 @@ public class StateController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'MANAGER')")
     @PutMapping(ApiPath.State.ID)
     public ResponseEntity<ApplicationResponse<StateResponse>> assignStateHead(@PathVariable(name = "id") Long stateId,
-                                                                              @Valid @RequestBody StateHeadAssignmentRequest request) {
+                                                                              @Valid @RequestBody HeadAssignmentRequest request) {
         StateResponse response = stateService.assignStateHead(stateId, request);
 
         return ResponseEntity.ok(

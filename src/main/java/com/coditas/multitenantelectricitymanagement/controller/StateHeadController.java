@@ -18,17 +18,17 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(ApiPath.BASE_PATH)
+@RequestMapping(ApiPath.StateHead.STATE_HEAD)
 public class StateHeadController {
 
     private final StateHeadService stateHeadService;
 
     @PreAuthorize("hasRole('MANAGER')")
-    @PostMapping(ApiPath.StateHead.STATE_HEAD)
+    @PostMapping
     public ResponseEntity<ApplicationResponse<UserResponse>> onboardStateHead(@Valid @RequestBody UserRequest request) {
         UserResponse response = stateHeadService.createStateHead(request);
 
-        URI location = URI.create(ApiPath.BASE_PATH);
+        URI location = URI.create(ApiPath.StateHead.STATE_HEAD);
 
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()

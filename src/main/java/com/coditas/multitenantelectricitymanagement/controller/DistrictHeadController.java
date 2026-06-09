@@ -28,7 +28,7 @@ public class DistrictHeadController {
     public ResponseEntity<ApplicationResponse<UserResponse>> onboardStateHead(@Valid @RequestBody UserRequest request) {
         UserResponse response = districtHeadService.createDistrictHead(request);
 
-        URI location = URI.create(ApiPath.BASE_PATH);
+        URI location = URI.create(ApiPath.DistrictHead.DISTRICT_HEAD);
 
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()

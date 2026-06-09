@@ -28,7 +28,7 @@ public class CityHeadController {
     public ResponseEntity<ApplicationResponse<UserResponse>> onboardCityHead(@Valid @RequestBody UserRequest request) {
         UserResponse response = cityHeadService.createCityHead(request);
 
-        URI location = URI.create(ApiPath.BASE_PATH);
+        URI location = URI.create(ApiPath.CityHead.CITY_HEAD);
 
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()

@@ -25,7 +25,7 @@ public class CityController {
     @PostMapping
     public ResponseEntity<ApplicationResponse<CityResponse>> createCity(@Valid @RequestBody CityRequest request) {
         CityResponse response = cityService.createCity(request);
-        URI location = URI.create(ApiPath.BASE_PATH);
+        URI location = URI.create(ApiPath.City.BASE);
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<CityResponse>builder()
                         .success(true)
