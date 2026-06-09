@@ -32,7 +32,7 @@ public class AuthService {
                     .acessToken(accessToken)
                     .build();
         }else{
-            throw new InvalidCredentialsException(ExceptionConstants.INVALIDCREDENTIAL);
+            throw new InvalidCredentialsException(ExceptionConstants.INVALID_CREDENTIAL);
         }
 
     }

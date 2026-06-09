@@ -7,7 +7,9 @@ import com.coditas.multitenantelectricitymanagement.dto.state.HeadAssignmentRequ
 import com.coditas.multitenantelectricitymanagement.entity.District;
 import com.coditas.multitenantelectricitymanagement.entity.State;
 import com.coditas.multitenantelectricitymanagement.entity.User;
+import com.coditas.multitenantelectricitymanagement.enums.Role;
 import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundException;
+import com.coditas.multitenantelectricitymanagement.exception.RoleMisMatchException;
 import com.coditas.multitenantelectricitymanagement.mapper.DistrictMapper;
 import com.coditas.multitenantelectricitymanagement.repository.DistrictRepository;
 import com.coditas.multitenantelectricitymanagement.repository.StateRepostiory;
@@ -32,7 +34,7 @@ public class DistrictService {
         District district = new District();
         district.setName(request.getName());
         State state = stateRepostiory.findByName(request.getState()).orElseThrow(
-                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCENOTFOUND)
+                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
         );
         district.setState(state);
         District savedDistrict = districtRepository.save(district);
@@ -42,12 +44,16 @@ public class DistrictService {
     @Transactional
     public DistrictResponse assignDistrictHead(Long districtId, @Valid HeadAssignmentRequest request) {
         District district = districtRepository.findById(districtId).orElseThrow(
-                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCENOTFOUND)
+                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
         );
 
         User districtHead = userRepository.findById(request.getId()).orElseThrow(
-                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCENOTFOUND)
+                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
         );
+
+        if(!districtHead.getRole().equals(Role.DISTRICT_HEAD)){
+            throw new RoleMisMatchException(ExceptionConstants.ROLE_MISMATCH);
+        }
 
         district.setDistrictHead(districtHead);
         district.setAssignedAt(Instant.now());

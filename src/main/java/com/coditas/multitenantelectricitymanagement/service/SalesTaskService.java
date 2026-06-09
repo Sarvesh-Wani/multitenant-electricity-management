@@ -32,24 +32,24 @@ public class SalesTaskService {
     public SalesTaskResponse createTask(SalesTaskRequest request) {
 
         if (salesTaskRepository.existsByTask(request.getTask())) {
-            throw new DuplicateResourceException(ExceptionConstants.DUPLICATERESOURCE);
+            throw new DuplicateResourceException(ExceptionConstants.DUPLICATE_RESOURCE);
         }
 
         SalesTask task = new SalesTask();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            throw new UnAuthenticatedUserException(ExceptionConstants.UNAUTHENTICATEDUSER);
+            throw new UnAuthenticatedUserException(ExceptionConstants.UNAUTHENTICATED_USER);
         }
         String currentUsername = authentication.getName();
         User manager = userRepository.findByUsername(currentUsername).orElseThrow(
-                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCENOTFOUND)
+                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
         );
         task.setManager(manager);
 
         if (request.getSalesTeamMemberId() != null) {
             User salesTeamMember = userRepository.findById(request.getSalesTeamMemberId()).orElseThrow(
-                    () -> new ResourceNotFoundException(ExceptionConstants.RESOURCENOTFOUND)
+                    () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
             );
             task.setSalesMember(salesTeamMember);
             task.setAssignedAt(Instant.now());

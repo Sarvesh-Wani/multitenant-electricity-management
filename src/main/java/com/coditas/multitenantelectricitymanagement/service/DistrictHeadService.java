@@ -23,7 +23,7 @@ public class DistrictHeadService {
 
     public UserResponse createDistrictHead(@Valid UserRequest request) {
         if(userRepository.existsByEmail(request.getEmail())) {
-            throw new DuplicateResourceException(ExceptionConstants.DUPLICATERESOURCE);
+            throw new DuplicateResourceException(ExceptionConstants.DUPLICATE_RESOURCE);
         }
         User user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
