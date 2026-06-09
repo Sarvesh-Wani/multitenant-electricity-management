@@ -8,5 +8,8 @@ public enum Role {
     SALES_TEAM_MEMBER,
     STATE_HEAD,
     DISTRICT_HEAD,
-    CITY_HEAD
+    CITY_HEAD,
+    LOCAL_TECHNICIAN,
+    BILLER,
+    CRM
 }

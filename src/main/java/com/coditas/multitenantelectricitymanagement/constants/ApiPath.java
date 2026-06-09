@@ -16,6 +16,14 @@ public final class ApiPath {
         public static final String SALES_TASK = "/sales-task";
     }
 
+    public static class LocalTechnician {
+        private LocalTechnician() {
+        }
+
+        public static final String BASE = BASE_PATH + "/cities/{cityId}/localtechnicians";
+        public static final String ID = "/{id}";
+    }
+
     public static class State {
         private State() {
         }
