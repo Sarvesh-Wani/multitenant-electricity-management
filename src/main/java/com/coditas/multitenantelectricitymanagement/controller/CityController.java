@@ -8,12 +8,14 @@ import com.coditas.multitenantelectricitymanagement.dto.state.HeadAssignmentRequ
 import com.coditas.multitenantelectricitymanagement.service.CityService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@Slf4j
 @RestController
 @RequestMapping(ApiPath.City.BASE)
 @RequiredArgsConstructor
@@ -24,8 +26,10 @@ public class CityController {
     @PreAuthorize("hasAnyRole('STATE_HEAD', 'DISTRICT_HEAD', 'MANAGER')")
     @PostMapping
     public ResponseEntity<ApplicationResponse<CityResponse>> createCity(@Valid @RequestBody CityRequest request) {
+        log.info("Received request to create city with name: {}", request.getName());
         CityResponse response = cityService.createCity(request);
         URI location = URI.create(ApiPath.City.BASE);
+        log.info("Successfully created city with Id {}", response.getId());
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<CityResponse>builder()
                         .success(true)
@@ -37,10 +41,11 @@ public class CityController {
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'MANAGER', 'STATE_HEAD', 'DISTRICT_HEAD')")
     @PutMapping(ApiPath.City.ID)
-    public ResponseEntity<ApplicationResponse<CityResponse>> assignStateHead(@PathVariable(name = "id") Long cityId,
-                                                                             @Valid @RequestBody HeadAssignmentRequest request) {
+    public ResponseEntity<ApplicationResponse<CityResponse>> assignCityHead(@PathVariable(name = "id") Long cityId,
+                                                                            @Valid @RequestBody HeadAssignmentRequest request) {
+        log.info("Received request to assign city head to city: {}", cityId);
         CityResponse response = cityService.assignCityHead(cityId, request);
-
+        log.info("Successfully assigned city head to city ");
         return ResponseEntity.ok(
                 ApplicationResponse.<CityResponse>builder()
                         .success(true)
