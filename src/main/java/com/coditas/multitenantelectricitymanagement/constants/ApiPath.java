@@ -24,6 +24,22 @@ public final class ApiPath {
         public static final String ID = "/{id}";
     }
 
+    public static class Biller {
+        private Biller() {
+        }
+
+        public static final String BASE = BASE_PATH + "/cities/billers";
+        public static final String ID = "/{id}";
+    }
+
+    public static class CRM {
+        private CRM() {
+        }
+
+        public static final String BASE = BASE_PATH + "/cities/crm";
+        public static final String ID = "/{id}";
+    }
+
     public static class State {
         private State() {
         }
