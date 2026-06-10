@@ -20,7 +20,7 @@ public final class ApiPath {
         private LocalTechnician() {
         }
 
-        public static final String BASE = BASE_PATH + "/cities/{cityId}/localtechnicians";
+        public static final String BASE = BASE_PATH + "/cities/{city-id}/localtechnicians";
         public static final String ID = "/{id}";
     }
 
@@ -38,6 +38,16 @@ public final class ApiPath {
 
         public static final String BASE = BASE_PATH + "/cities/crm";
         public static final String ID = "/{id}";
+    }
+
+    public static class Area {
+        private Area() {
+        }
+
+        public static final String BASE = BASE_PATH + "/cities/{city-id}/areas";
+        public static final String ID = "/{area-id}";
+        public static final String TECHNICIAN = "/technicians";
+        public static final String BILLER ="/billers";
     }
 
     public static class State {
