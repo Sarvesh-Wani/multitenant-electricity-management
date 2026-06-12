@@ -1,10 +1,10 @@
 package com.coditas.multitenantelectricitymanagement.repository;
 
-import com.coditas.multitenantelectricitymanagement.entity.AppUser;
+import com.coditas.multitenantelectricitymanagement.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AppUserRepository extends JpaRepository<AppUser, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 }

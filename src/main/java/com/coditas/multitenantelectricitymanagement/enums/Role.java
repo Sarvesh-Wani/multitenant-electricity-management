@@ -11,5 +11,6 @@ public enum Role {
     CITY_HEAD,
     LOCAL_TECHNICIAN,
     BILLER,
-    CRM
+    CRM,
+    CUSTOMER
 }
