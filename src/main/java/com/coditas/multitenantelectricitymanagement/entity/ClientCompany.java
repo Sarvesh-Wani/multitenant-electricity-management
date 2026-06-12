@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -32,7 +33,7 @@ public class ClientCompany {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.ENUM)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", columnDefinition = "public.company_status")
     private CompanyStatus status;
 
@@ -40,6 +41,7 @@ public class ClientCompany {
     @JoinColumn(name = "sales_team_id")
     private User salesTeamMember;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
 

@@ -11,5 +11,10 @@ public class CompanyRequest {
     @NotBlank
     private String companyName;
 
+    @NotBlank
     private String tenantId;
+
+    @NotBlank
+    private String email;
+
 }

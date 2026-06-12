@@ -1,27 +1,35 @@
 package com.coditas.multitenantelectricitymanagement.controller;
 
-import com.coditas.multitenantelectricitymanagement.dto.CompanyRequest;
-import com.coditas.multitenantelectricitymanagement.dto.CompanyResponse;
+import com.coditas.multitenantelectricitymanagement.dto.ApplicationResponse;
+import com.coditas.multitenantelectricitymanagement.dto.company.CompanyRequest;
+import com.coditas.multitenantelectricitymanagement.dto.company.CompanyResponse;
 import com.coditas.multitenantelectricitymanagement.service.ClientCompanyService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ClientCompanyController {
 
     private final ClientCompanyService clientCompanyService;
 
-    @PostMapping("/registerCompany")
-    public ResponseEntity<CompanyResponse> registerCompany(@RequestBody CompanyRequest request) {
-        CompanyResponse response = clientCompanyService.registerCompany(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @PreAuthorize("hasRole('SALES_TEAM_MEMBER')")
+    @PostMapping("sales-team/{sid}/client-companies")
+    public ResponseEntity<ApplicationResponse<CompanyResponse>> registerCompany(@PathVariable Long sid, @Valid @RequestBody CompanyRequest request) {
+        CompanyResponse response = clientCompanyService.registerCompany(sid, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                ApplicationResponse.<CompanyResponse>builder()
+                        .success(true)
+                        .message("Successfully registered new client company on the platform")
+                        .data(response)
+                        .build()
+        );
+
     }
 
 }
