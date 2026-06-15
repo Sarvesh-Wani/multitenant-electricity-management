@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
         response.setPath(http.getRequestURL().toString());
         response.setTimestamp(Instant.now());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 ApplicationResponse.<ErrorResponse>builder()
                         .success(false)
                         .message("Exception occurred")
