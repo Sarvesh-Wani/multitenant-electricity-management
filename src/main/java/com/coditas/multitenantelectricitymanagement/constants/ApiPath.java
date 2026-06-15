@@ -30,6 +30,8 @@ public final class ApiPath {
 
         public static final String BASE = BASE_PATH + "/cities/billers";
         public static final String ID = "/{id}";
+        public static final String CUSTOMER = BASE_PATH+"/customers";
+        public static final String BILL = "/bills";
     }
 
     public static class CRM {
@@ -40,6 +42,16 @@ public final class ApiPath {
         public static final String ID = "/{id}";
     }
 
+    public static class Customer {
+        private Customer() {
+        }
+
+        public static final String BASE = BASE_PATH + "/areas/{area-id}/customers";
+        public static final String ID = "/{id}";
+        public static final String ASSIGNMENT = "/assign-service-providers";
+    }
+
+
     public static class Area {
         private Area() {
         }
@@ -47,7 +59,7 @@ public final class ApiPath {
         public static final String BASE = BASE_PATH + "/cities/{city-id}/areas";
         public static final String ID = "/{area-id}";
         public static final String TECHNICIAN = "/technicians";
-        public static final String BILLER ="/billers";
+        public static final String BILLER = "/billers";
     }
 
     public static class State {
@@ -99,7 +111,9 @@ public final class ApiPath {
         private SalesTeam() {
         }
 
-        public static final String BASE = "/sales-team";
+        public static final String BASE = BASE_PATH+ "/sales-team";
+        public static final String ID = "/{sid}";
+        public static final String CLIENT_COMPANY = "/client-companies";
     }
 
 
