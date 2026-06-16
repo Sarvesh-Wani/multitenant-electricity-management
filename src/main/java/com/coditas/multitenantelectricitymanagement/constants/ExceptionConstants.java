@@ -12,5 +12,7 @@ public final class ExceptionConstants {
     public static final String DUPLICATE_RESOURCE = "THE_RESOURCE_ALREADY_EXIST";
     public static final String ROLE_MISMATCH = "NOT_A_VALID_ROLE_FOR_THIS_OPERATION";
     public static final String CUSTOMER_NOT_FOUND = "CUSTOMER_NOT_FOUND_FOR_PROVIDED_ID";
+    public static final String BILLER_NOT_FOUND = "BILLER_NOT_FOUND";
+    public static final String BILLER_ROLE_MISMATCH = "BILLER_ROLE_REQUIRED_FOR_THIS_OPERATION";
 
 }

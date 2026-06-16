@@ -32,6 +32,7 @@ public final class ApiPath {
         public static final String ID = "/{id}";
         public static final String CUSTOMER = BASE_PATH+"/customers";
         public static final String BILL = "/bills";
+        public static final String QUERIES = "/queries";
     }
 
     public static class CRM {
