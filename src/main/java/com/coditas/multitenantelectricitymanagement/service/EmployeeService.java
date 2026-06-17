@@ -1,6 +1,5 @@
 package com.coditas.multitenantelectricitymanagement.service;
 
-import com.coditas.multitenantelectricitymanagement.constants.ApiPath;
 import com.coditas.multitenantelectricitymanagement.constants.ExceptionConstants;
 import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeRequest;
 import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeResponse;
@@ -15,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -25,12 +25,16 @@ public class EmployeeService {
     private final PasswordEncoder passwordEncoder;
 
     public EmployeeResponse onboardSalesTeamMember(@Valid EmployeeRequest request) {
+        return persistEmployee(request, TenantRole.SALES_TEAM);
+    }
+
+    public EmployeeResponse persistEmployee(EmployeeRequest request, TenantRole role) {
         if (employeeRepository.existsByEmail(request.getEmail())) {
             log.warn("ObBoarding failed, user with email {} already exist", request.getEmail());
             throw new DuplicateResourceException(ExceptionConstants.DUPLICATE_EMPLOYEE_FOUND);
         }
         Employee employee = employeeMapper.toEntity(request);
-        employee.setRole(TenantRole.SALES_TEAM);
+        employee.setRole(role);
         employee.setPassword(passwordEncoder.encode(request.getPassword()));
         Employee savedEmployee = employeeRepository.save(employee);
         return employeeMapper.toDTO(savedEmployee);
@@ -39,5 +43,9 @@ public class EmployeeService {
     public EmployeeResponse getSalesTeam(Long id) {
         Employee response = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND));
         return employeeMapper.toDTO(response);
+    }
+
+    public EmployeeResponse onboardOperationsHead(EmployeeRequest request) {
+        return persistEmployee(request, TenantRole.OPERATION_HEAD);
     }
 }

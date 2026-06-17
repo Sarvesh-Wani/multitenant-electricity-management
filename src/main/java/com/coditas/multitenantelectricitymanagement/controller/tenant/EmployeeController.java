@@ -34,6 +34,20 @@ public class EmployeeController {
         );
     }
 
+    @PreAuthorize("hasRole('SALES_TEAM')")
+    @PostMapping(ApiPath.Employee.OPERATIONS_HEAD)
+    public ResponseEntity<ApplicationResponse<EmployeeResponse>> onboardOperationsHead(@Valid @RequestBody EmployeeRequest request) {
+        EmployeeResponse response = employeeService.onboardOperationsHead(request);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Employee.OPERATIONS_HEAD);
+        return ResponseEntity.created(location).body(
+                ApplicationResponse.<EmployeeResponse>builder()
+                        .success(true)
+                        .message("successfully onboarded Operations Head")
+                        .data(response)
+                        .build()
+        );
+    }
+
     @GetMapping(ApiPath.Employee.SALES+"/{id}")
     public ResponseEntity<ApplicationResponse<EmployeeResponse>> getSalesTeam(@PathVariable Long id) {
         EmployeeResponse response = employeeService.getSalesTeam(id);

@@ -131,6 +131,7 @@ public final class ApiPath {
         }
         public static final String BASE = BASE_PATH+"/employees";
         public static final String SALES = "/sales";
+        public static final String OPERATIONS_HEAD = "/operations-head";
     }
 
 
