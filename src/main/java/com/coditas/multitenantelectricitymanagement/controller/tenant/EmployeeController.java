@@ -35,14 +35,28 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('SALES_TEAM')")
-    @PostMapping(ApiPath.Employee.OPERATIONS_HEAD)
+    @PostMapping(ApiPath.Employee.OPERATION_HEAD)
     public ResponseEntity<ApplicationResponse<EmployeeResponse>> onboardOperationsHead(@Valid @RequestBody EmployeeRequest request) {
         EmployeeResponse response = employeeService.onboardOperationsHead(request);
-        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Employee.OPERATIONS_HEAD);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Employee.OPERATION_HEAD);
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<EmployeeResponse>builder()
                         .success(true)
                         .message("successfully onboarded Operations Head")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('OPERATION_HEAD')")
+    @PostMapping(ApiPath.Employee.BPO)
+    public ResponseEntity<ApplicationResponse<EmployeeResponse>> onboardBPO(@Valid @RequestBody EmployeeRequest request) {
+        EmployeeResponse response = employeeService.onboardBPO(request);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Employee.BPO);
+        return ResponseEntity.created(location).body(
+                ApplicationResponse.<EmployeeResponse>builder()
+                        .success(true)
+                        .message("successfully onboarded BPO")
                         .data(response)
                         .build()
         );

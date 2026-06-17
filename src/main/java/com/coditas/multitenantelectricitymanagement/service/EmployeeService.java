@@ -48,4 +48,8 @@ public class EmployeeService {
     public EmployeeResponse onboardOperationsHead(EmployeeRequest request) {
         return persistEmployee(request, TenantRole.OPERATION_HEAD);
     }
+
+    public EmployeeResponse onboardBPO(EmployeeRequest request) {
+        return persistEmployee(request, TenantRole.BPO);
+    }
 }

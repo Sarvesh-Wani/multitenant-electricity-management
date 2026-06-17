@@ -13,7 +13,6 @@ public class EmployeeResponse {
     private Long id;
     private String name;
     private String email;
-    private String password;
     private TenantRole role;
     private Instant createdAt;
 }

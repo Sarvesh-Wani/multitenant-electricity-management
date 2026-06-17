@@ -11,3 +11,11 @@ CREATE TABLE employees
     role       user_role Not null,
     created_at TIMESTAMPTZ default NOW()
 );
+
+create table bpo_states
+(
+    bpo_id   bigint not null,
+    state_id bigint not null,
+    CONSTRAINT fk_bpo_id FOREIGN KEY bpo_id references employees(id),
+    CONSTRAINT fk_state_id FOREIGN KEY state_id references public.states(id)
+);
