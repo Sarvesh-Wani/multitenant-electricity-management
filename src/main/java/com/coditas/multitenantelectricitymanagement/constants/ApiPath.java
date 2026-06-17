@@ -8,7 +8,6 @@ public final class ApiPath {
     public static final String BASE_PATH = "/api/v1";
     public static final String LOGIN = "/login";
 
-
     public static class Task {
         private Task() {
         }
@@ -125,6 +124,13 @@ public final class ApiPath {
         public static final String ONBOARD_MANAGEMENT_TEAM_MEMBER = "/onboard-management-team-member";
         public static final String ONBOARD_SALES_TEAM_MEMBER = "/onboard-sales-team-member";
         public static final String ONBOARD_SUPER_ADMIN = "/onboard-superadmin";
+    }
+
+    public static class Employee{
+        private Employee(){
+        }
+        public static final String BASE = BASE_PATH+"/employees";
+        public static final String SALES = "/sales";
     }
 
 

@@ -14,5 +14,6 @@ public final class ExceptionConstants {
     public static final String CUSTOMER_NOT_FOUND = "CUSTOMER_NOT_FOUND_FOR_PROVIDED_ID";
     public static final String BILLER_NOT_FOUND = "BILLER_NOT_FOUND";
     public static final String BILLER_ROLE_MISMATCH = "BILLER_ROLE_REQUIRED_FOR_THIS_OPERATION";
+    public static final String DUPLICATE_EMPLOYEE_FOUND = "EMPLOYEE_WITH_GIVEN_ID_ALREADY_EXIST";
 
 }

@@ -1,0 +1,49 @@
+package com.coditas.multitenantelectricitymanagement.controller.tenant;
+
+import com.coditas.multitenantelectricitymanagement.constants.ApiPath;
+import com.coditas.multitenantelectricitymanagement.dto.ApplicationResponse;
+import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeRequest;
+import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeResponse;
+import com.coditas.multitenantelectricitymanagement.service.EmployeeService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+
+@RestController
+@RequestMapping(ApiPath.BASE_PATH)
+@RequiredArgsConstructor
+public class EmployeeController {
+
+    private final EmployeeService employeeService;
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(ApiPath.Employee.SALES)
+    public ResponseEntity<ApplicationResponse<EmployeeResponse>> onboardSalesTeamMember(@Valid @RequestBody EmployeeRequest request) {
+        EmployeeResponse response = employeeService.onboardSalesTeamMember(request);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Employee.SALES);
+        return ResponseEntity.created(location).body(
+                ApplicationResponse.<EmployeeResponse>builder()
+                        .success(true)
+                        .message("successfully onboarded sales team member")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @GetMapping(ApiPath.Employee.SALES+"/{id}")
+    public ResponseEntity<ApplicationResponse<EmployeeResponse>> getSalesTeam(@PathVariable Long id) {
+        EmployeeResponse response = employeeService.getSalesTeam(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<EmployeeResponse>builder()
+                        .success(true)
+                        .message("successfully get sales team member")
+                        .data(response)
+                        .build()
+        );
+    }
+
+}

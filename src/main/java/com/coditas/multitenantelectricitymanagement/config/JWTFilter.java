@@ -2,6 +2,7 @@ package com.coditas.multitenantelectricitymanagement.config;
 
 import com.coditas.multitenantelectricitymanagement.service.CustomUserDetailsService;
 import com.coditas.multitenantelectricitymanagement.service.JWTService;
+import com.coditas.multitenantelectricitymanagement.tenant.TenantContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +28,12 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String tenant = request.getHeader("X-Tenant-ID");
+
+        if(tenant != null){
+            TenantContext.setTenant(tenant);
+        }
+
         String header = request.getHeader("Authorization");
         String token=null;
         String username=null;

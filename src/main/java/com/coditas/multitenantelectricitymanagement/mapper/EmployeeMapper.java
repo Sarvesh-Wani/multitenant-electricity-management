@@ -1,18 +1,16 @@
 package com.coditas.multitenantelectricitymanagement.mapper;
 
-import com.coditas.multitenantelectricitymanagement.dto.employee.EmployeeRegisterRequest;
-import com.coditas.multitenantelectricitymanagement.dto.employee.EmployeeRegisterResponse;
+import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeRequest;
+import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeResponse;
 import com.coditas.multitenantelectricitymanagement.entity.Employee;
+import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
-@Mapper(componentModel = "spring", uses = UserMapper.class)
+@Mapper(componentModel = "spring")
 public interface EmployeeMapper {
 
-    Employee toEntity(EmployeeRegisterRequest request);
 
-    EmployeeRegisterResponse toDTO(Employee employee);
+    Employee toEntity(@Valid EmployeeRequest request);
 
-    List<EmployeeRegisterResponse> toEmployeeRegisterResponseList(List<Employee> employees);
+    EmployeeResponse toDTO(Employee savedEmployee);
 }
