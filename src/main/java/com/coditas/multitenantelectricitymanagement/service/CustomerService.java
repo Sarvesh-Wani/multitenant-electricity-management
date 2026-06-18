@@ -14,6 +14,7 @@ import com.coditas.multitenantelectricitymanagement.mapper.UserMapper;
 import com.coditas.multitenantelectricitymanagement.repository.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class CustomerService {
     private final ClientCompanyRepository clientCompanyRepository;
     private final UserClientCompanyRepository userClientCompanyRepository;
     private final UserClientCompanyMapper userClientCompanyMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public CustomerResponse registerCustomer(Long areaId, CustomerRequest request) {
@@ -36,6 +38,7 @@ public class CustomerService {
                 () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
         );
         User user = userMapper.toEntity(request.getUser());
+        user.setPassword(passwordEncoder.encode(request.getUser().getPassword()));
         user.setRole(Role.CUSTOMER);
         User savedUser = userRepository.save(user);
 
