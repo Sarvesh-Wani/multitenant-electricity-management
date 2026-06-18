@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class StateHeadAssignmentRequest {
-    private Long stateHeadId;
+public class HeadAssignmentRequest {
+    private Long id;
 }
