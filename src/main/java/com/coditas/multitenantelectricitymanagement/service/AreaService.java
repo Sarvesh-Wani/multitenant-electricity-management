@@ -30,7 +30,6 @@ public class AreaService {
     private final CityRepository cityRepository;
     private final UserRepository userRepository;
 
-
     public AreaResponse registerArea(Long cityId, AreaRequest request) {
         log.info("Processing request to register area with name {} for city id {} ", request.getName(), cityId);
 
