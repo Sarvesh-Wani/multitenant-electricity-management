@@ -1,15 +1,22 @@
 package com.coditas.multitenantelectricitymanagement.service;
 
 import com.coditas.multitenantelectricitymanagement.constants.ExceptionConstants;
+import com.coditas.multitenantelectricitymanagement.dto.bpostate.BPOStateRequest;
+import com.coditas.multitenantelectricitymanagement.dto.bpostate.BPOStateResponse;
 import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeRequest;
 import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeResponse;
 import com.coditas.multitenantelectricitymanagement.entity.Employee;
+import com.coditas.multitenantelectricitymanagement.entity.State;
+import com.coditas.multitenantelectricitymanagement.entity.tenant.BPOState;
+import com.coditas.multitenantelectricitymanagement.entity.tenant.BPOStateID;
 import com.coditas.multitenantelectricitymanagement.enums.TenantRole;
 import com.coditas.multitenantelectricitymanagement.exception.DuplicateResourceException;
 import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundException;
+import com.coditas.multitenantelectricitymanagement.mapper.BPOStateMapper;
 import com.coditas.multitenantelectricitymanagement.mapper.EmployeeMapper;
+import com.coditas.multitenantelectricitymanagement.repository.BPOStateRepository;
 import com.coditas.multitenantelectricitymanagement.repository.EmployeeRepository;
-import jakarta.validation.Valid;
+import com.coditas.multitenantelectricitymanagement.repository.StateRepostiory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,8 +30,11 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
     private final PasswordEncoder passwordEncoder;
+    private final StateRepostiory stateRepostiory;
+    private final BPOStateRepository bpoStateRepository;
+    private final BPOStateMapper bpoStateMapper;
 
-    public EmployeeResponse onboardSalesTeamMember(@Valid EmployeeRequest request) {
+    public EmployeeResponse onboardSalesTeamMember(EmployeeRequest request) {
         return persistEmployee(request, TenantRole.SALES_TEAM);
     }
 
@@ -51,5 +61,16 @@ public class EmployeeService {
 
     public EmployeeResponse onboardBPO(EmployeeRequest request) {
         return persistEmployee(request, TenantRole.BPO);
+    }
+
+    public BPOStateResponse assignBPOState(BPOStateRequest request) {
+        BPOState bpoState = new BPOState();
+        Employee bpo = employeeRepository.findById(request.getBpo()).orElseThrow(() -> new ResourceNotFoundException(ExceptionConstants.BPO_NOT_FOUND));
+        State state = stateRepostiory.findById(request.getState()).orElseThrow(() -> new ResourceNotFoundException(ExceptionConstants.STATE_NOT_FOUND));
+        bpoState.setBpo(bpo);
+        bpoState.setState(state);
+        bpoState.setId(new BPOStateID());
+        BPOState savedBPOState = bpoStateRepository.save(bpoState);
+        return bpoStateMapper.toDTO(savedBPOState);
     }
 }

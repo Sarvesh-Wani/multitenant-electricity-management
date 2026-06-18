@@ -2,6 +2,8 @@ package com.coditas.multitenantelectricitymanagement.controller.tenant;
 
 import com.coditas.multitenantelectricitymanagement.constants.ApiPath;
 import com.coditas.multitenantelectricitymanagement.dto.ApplicationResponse;
+import com.coditas.multitenantelectricitymanagement.dto.bpostate.BPOStateRequest;
+import com.coditas.multitenantelectricitymanagement.dto.bpostate.BPOStateResponse;
 import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeRequest;
 import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeResponse;
 import com.coditas.multitenantelectricitymanagement.service.EmployeeService;
@@ -55,6 +57,19 @@ public class EmployeeController {
         URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Employee.BPO);
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<EmployeeResponse>builder()
+                        .success(true)
+                        .message("successfully onboarded BPO")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('OPERATION_HEAD')")
+    @PostMapping(ApiPath.Employee.BPOSTATE)
+    public ResponseEntity<ApplicationResponse<BPOStateResponse>> assignBPOState(@Valid @RequestBody BPOStateRequest request) {
+        BPOStateResponse response = employeeService.assignBPOState(request);
+        return ResponseEntity.ok(
+                ApplicationResponse.<BPOStateResponse>builder()
                         .success(true)
                         .message("successfully onboarded BPO")
                         .data(response)
