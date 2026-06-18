@@ -1,5 +1,6 @@
 package com.coditas.multitenantelectricitymanagement.controller;
 
+import com.coditas.multitenantelectricitymanagement.constants.ApiPath;
 import com.coditas.multitenantelectricitymanagement.dto.ApplicationResponse;
 import com.coditas.multitenantelectricitymanagement.dto.company.CompanyRequest;
 import com.coditas.multitenantelectricitymanagement.dto.company.CompanyResponse;
@@ -12,14 +13,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(ApiPath.SalesTeam.BASE)
 @RequiredArgsConstructor
 public class ClientCompanyController {
 
     private final ClientCompanyService clientCompanyService;
 
     @PreAuthorize("hasRole('SALES_TEAM_MEMBER')")
-    @PostMapping("sales-team/{sid}/client-companies")
+    @PostMapping(ApiPath.SalesTeam.ID+ApiPath.SalesTeam.CLIENT_COMPANY)
     public ResponseEntity<ApplicationResponse<CompanyResponse>> registerCompany(@PathVariable Long sid, @Valid @RequestBody CompanyRequest request) {
         CompanyResponse response = clientCompanyService.registerCompany(sid, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(
