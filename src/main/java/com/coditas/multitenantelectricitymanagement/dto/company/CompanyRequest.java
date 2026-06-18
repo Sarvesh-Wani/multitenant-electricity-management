@@ -1,5 +1,6 @@
 package com.coditas.multitenantelectricitymanagement.dto.company;
 
+import com.coditas.multitenantelectricitymanagement.dto.tenant.employee.EmployeeRequest;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,6 @@ public class CompanyRequest {
     @NotBlank
     private String tenantId;
 
-    @NotBlank
-    private String email;
+    private EmployeeRequest employee;
 
 }

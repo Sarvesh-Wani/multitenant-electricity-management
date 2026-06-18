@@ -10,8 +10,10 @@ import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundEx
 import com.coditas.multitenantelectricitymanagement.mapper.ClientCompanyMapper;
 import com.coditas.multitenantelectricitymanagement.repository.ClientCompanyRepository;
 import com.coditas.multitenantelectricitymanagement.repository.UserRepository;
+import com.coditas.multitenantelectricitymanagement.tenant.TenantContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,9 @@ public class ClientCompanyService {
     private final TenantService tenantService;
     private final UserRepository userRepository;
     private final ClientCompanyMapper companyMapper;
+    private final TenantIsolation tenantIsolation;
 
+    @Transactional
     public CompanyResponse registerCompany(Long sid, CompanyRequest request) {
 
         User salesTeam = userRepository.findById(sid).orElseThrow(
@@ -33,10 +37,13 @@ public class ClientCompanyService {
         company.setCompanyName(request.getCompanyName());
         company.setTenantId(request.getTenantId());
         company.setStatus(CompanyStatus.ACTIVE);
-        company.setEmail(request.getEmail());
         company.setSalesTeamMember(salesTeam);
+
         ClientCompany savedCompany = clientCompanyRepository.save(company);
         tenantService.createSchema(savedCompany.getTenantId());
+
+        TenantContext.setTenant(savedCompany.getTenantId());
+        tenantIsolation.registerEmployee(request.getEmployee());
 
         return companyMapper.toDTO(savedCompany);
     }

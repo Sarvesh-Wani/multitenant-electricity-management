@@ -1,5 +1,5 @@
 create type user_role as enum(
-    'BPO', 'OPERATION_HEAD', 'SALES_TEAM', 'Manager-1','Manager-2'
+    'BPO', 'OPERATION_HEAD', 'SALES_TEAM', 'Manager-1','Manager-2', 'ADMIN'
 );
 
 CREATE TABLE employees
@@ -16,6 +16,6 @@ create table bpo_states
 (
     bpo_id   bigint not null,
     state_id bigint not null,
-    CONSTRAINT fk_bpo_id FOREIGN KEY bpo_id references employees(id),
-    CONSTRAINT fk_state_id FOREIGN KEY state_id references public.states(id)
+    CONSTRAINT fk_bpo_id FOREIGN KEY (bpo_id) references employees(id),
+    CONSTRAINT fk_state_id FOREIGN KEY (state_id) references public.states(id)
 );

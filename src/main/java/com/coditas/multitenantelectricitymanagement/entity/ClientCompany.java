@@ -29,9 +29,6 @@ public class ClientCompany {
     @Column(name = "tenant_id", unique = true)
     private String tenantId;
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", columnDefinition = "public.company_status")
