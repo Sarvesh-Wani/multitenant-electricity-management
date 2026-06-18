@@ -136,5 +136,17 @@ public final class ApiPath {
         public static final String BPOSTATE = "/bpo-states";
     }
 
+    public static class CustomerQuery{
+        private CustomerQuery(){
+        }
+        public static final String BASE = "/customers/{customer-id}/queries";
+        public static final String QUERIES = "/queries";
+        public static final String ID = "/{id}";
+        public static final String ESCALATED_M1 = "/escalated-m1";
+        public static final String ESCALATED_M2 = "/escalated-m2";
+        public static final String RESOLVED = "/resolved";
+
+    }
+
 
 }

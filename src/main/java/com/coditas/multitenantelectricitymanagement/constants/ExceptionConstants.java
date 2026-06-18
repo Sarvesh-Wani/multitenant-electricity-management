@@ -17,5 +17,8 @@ public final class ExceptionConstants {
     public static final String DUPLICATE_EMPLOYEE_FOUND = "EMPLOYEE_WITH_GIVEN_ID_ALREADY_EXIST";
     public static final String BPO_NOT_FOUND = "BPO_WITH_GIVEN_ID_NOT_FOUND";
     public static final String STATE_NOT_FOUND = "STATE_WITH_GIVEN_ID_NOT_FOUND";
+    public static final String BPO_ROLE_MISMATCH = "BPO_ROLE_REQUIRED_FOR_THIS_OPERATION";
+    public static final String CUSTOMER_ROLE_MISMATCH = "CUSTOMER_ROLE_REQUIRED_FOR_THIS_OPERATION";
+    public static final String CUSTOMER_QUERY_NOT_FOUND = "CUSTOMER_QUERY_NOT_FOUND";
 
 }
