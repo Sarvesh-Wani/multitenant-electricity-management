@@ -1,5 +1,5 @@
 create type user_role as enum(
-    'BPO', 'OPERATION_HEAD', 'SALES_TEAM', 'MANAGER-1','MANAGER-2', 'ADMIN'
+    'BPO', 'OPERATION_HEAD', 'SALES_TEAM', 'MANAGER1','MANAGER2', 'ADMIN'
 );
 
 CREATE TABLE employees

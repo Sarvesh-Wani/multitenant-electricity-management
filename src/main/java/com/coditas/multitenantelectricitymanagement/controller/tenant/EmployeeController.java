@@ -65,6 +65,34 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('OPERATION_HEAD')")
+    @PostMapping(ApiPath.Employee.MANAGER1)
+    public ResponseEntity<ApplicationResponse<EmployeeResponse>> onboardM1(@Valid @RequestBody EmployeeRequest request) {
+        EmployeeResponse response = employeeService.onboardM1(request);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Employee.MANAGER1);
+        return ResponseEntity.created(location).body(
+                ApplicationResponse.<EmployeeResponse>builder()
+                        .success(true)
+                        .message("successfully onboarded Manager 1")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('OPERATION_HEAD')")
+    @PostMapping(ApiPath.Employee.MANAGER2)
+    public ResponseEntity<ApplicationResponse<EmployeeResponse>> onboardM2(@Valid @RequestBody EmployeeRequest request) {
+        EmployeeResponse response = employeeService.onboardM2(request);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Employee.MANAGER2);
+        return ResponseEntity.created(location).body(
+                ApplicationResponse.<EmployeeResponse>builder()
+                        .success(true)
+                        .message("successfully onboarded Manager 1")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('OPERATION_HEAD')")
     @PostMapping(ApiPath.Employee.BPOSTATE)
     public ResponseEntity<ApplicationResponse<BPOStateResponse>> assignBPOState(@Valid @RequestBody BPOStateRequest request) {
         BPOStateResponse response = employeeService.assignBPOState(request);

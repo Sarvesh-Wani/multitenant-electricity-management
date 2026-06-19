@@ -12,11 +12,13 @@ import com.coditas.multitenantelectricitymanagement.entity.tenant.BPOStateID;
 import com.coditas.multitenantelectricitymanagement.enums.TenantRole;
 import com.coditas.multitenantelectricitymanagement.exception.DuplicateResourceException;
 import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundException;
+import com.coditas.multitenantelectricitymanagement.exception.RoleMisMatchException;
 import com.coditas.multitenantelectricitymanagement.mapper.BPOStateMapper;
 import com.coditas.multitenantelectricitymanagement.mapper.EmployeeMapper;
 import com.coditas.multitenantelectricitymanagement.repository.BPOStateRepository;
 import com.coditas.multitenantelectricitymanagement.repository.EmployeeRepository;
 import com.coditas.multitenantelectricitymanagement.repository.StateRepostiory;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,11 +68,22 @@ public class EmployeeService {
     public BPOStateResponse assignBPOState(BPOStateRequest request) {
         BPOState bpoState = new BPOState();
         Employee bpo = employeeRepository.findById(request.getBpo()).orElseThrow(() -> new ResourceNotFoundException(ExceptionConstants.BPO_NOT_FOUND));
+        if (!bpo.getRole().equals(TenantRole.BPO)) {
+            throw new RoleMisMatchException(ExceptionConstants.BPO_ROLE_MISMATCH);
+        }
         State state = stateRepostiory.findById(request.getState()).orElseThrow(() -> new ResourceNotFoundException(ExceptionConstants.STATE_NOT_FOUND));
         bpoState.setBpo(bpo);
         bpoState.setState(state);
         bpoState.setId(new BPOStateID());
         BPOState savedBPOState = bpoStateRepository.save(bpoState);
         return bpoStateMapper.toDTO(savedBPOState);
+    }
+
+    public EmployeeResponse onboardM1(@Valid EmployeeRequest request) {
+        return persistEmployee(request, TenantRole.MANAGER1);
+    }
+
+    public EmployeeResponse onboardM2(@Valid EmployeeRequest request) {
+        return persistEmployee(request, TenantRole.MANAGER2);
     }
 }
