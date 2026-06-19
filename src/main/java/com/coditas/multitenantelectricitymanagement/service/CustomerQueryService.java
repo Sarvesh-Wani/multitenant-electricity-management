@@ -49,5 +49,15 @@ public class CustomerQueryService {
         return tenantIsolation.updateStatus(id, QueryStatus.RESOLVED);
     }
 
+    public CustomerQueryResponse updateStatusToM1(Long id, DataRequest request) {
+        TenantContext.setTenant(request.getTenantId());
+        return tenantIsolation.updateStatus(id, QueryStatus.ESCALATED_TO_M1);
+    }
+
+    public CustomerQueryResponse updateStatusToM2(Long id, DataRequest request) {
+        TenantContext.setTenant(request.getTenantId());
+        return tenantIsolation.updateStatus(id, QueryStatus.ESCALATED_TO_M2);
+    }
+
 
 }

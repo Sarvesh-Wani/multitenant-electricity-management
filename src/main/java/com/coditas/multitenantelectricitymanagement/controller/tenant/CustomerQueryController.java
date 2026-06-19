@@ -42,11 +42,37 @@ public class CustomerQueryController {
         return ResponseEntity.ok(
                 ApplicationResponse.<CustomerQueryResponse>builder()
                         .success(true)
-                        .message("Successfully updated query status")
+                        .message("Successfully updated query status to Resolved")
                         .data(response)
                         .build()
         );
     }
 
+
+    @PreAuthorize("hasRole('LOCAL_TECHNICIAN')")
+    @PatchMapping(ApiPath.CustomerQuery.QUERIES+ApiPath.CustomerQuery.ID+ApiPath.CustomerQuery.ESCALATED_M1)
+    public ResponseEntity<ApplicationResponse<CustomerQueryResponse>> updateStatusToM1(@PathVariable Long id, @Valid @RequestBody DataRequest request) {
+        CustomerQueryResponse response = customerQueryService.updateStatusToM1(id, request);
+        return ResponseEntity.ok(
+                ApplicationResponse.<CustomerQueryResponse>builder()
+                        .success(true)
+                        .message("Successfully updated query status ESCAlATED TO M1")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('LOCAL_TECHNICIAN')")
+    @PatchMapping(ApiPath.CustomerQuery.QUERIES+ApiPath.CustomerQuery.ID+ApiPath.CustomerQuery.ESCALATED_M2)
+    public ResponseEntity<ApplicationResponse<CustomerQueryResponse>> updateStatusToM2(@PathVariable Long id, @Valid @RequestBody DataRequest request) {
+        CustomerQueryResponse response = customerQueryService.updateStatusToM2(id, request);
+        return ResponseEntity.ok(
+                ApplicationResponse.<CustomerQueryResponse>builder()
+                        .success(true)
+                        .message("Successfully updated query status ESCALATED TO M2")
+                        .data(response)
+                        .build()
+        );
+    }
 
 }
