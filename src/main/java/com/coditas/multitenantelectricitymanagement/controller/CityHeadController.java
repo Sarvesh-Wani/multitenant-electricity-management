@@ -10,12 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -37,6 +35,34 @@ public class CityHeadController {
                 ApplicationResponse.<UserResponse>builder()
                         .success(true)
                         .message("City Head successfully on-boarded!")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('DISTRICT_HEAD')")
+    @GetMapping(ApiPath.ID)
+    public ResponseEntity<ApplicationResponse<UserResponse>> retrieveCityHead(@PathVariable Long id) {
+
+        UserResponse response = cityHeadService.retrieveCityHead(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a City Head")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('DISTRICT_HEAD')")
+    @GetMapping
+    public ResponseEntity<ApplicationResponse<List<UserResponse>>> retrieveAllCityHead() {
+
+        List<UserResponse> response = cityHeadService.retrieveAllCityHead();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<UserResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all City head")
                         .data(response)
                         .build()
         );

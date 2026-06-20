@@ -7,6 +7,8 @@ public final class ApiPath {
 
     public static final String BASE_PATH = "/api/v1";
     public static final String LOGIN = "/login";
+    public static final String ID = "/{id}";
+
 
     public static class Task {
         private Task() {
@@ -111,7 +113,8 @@ public final class ApiPath {
         private SalesTeam() {
         }
 
-        public static final String BASE = BASE_PATH + "/sales-team";
+        public static final String SALES_TEAM = "/sales-team";
+        public static final String BASE = BASE_PATH + SALES_TEAM;
         public static final String ID = "/{sid}";
         public static final String CLIENT_COMPANY = "/client-companies";
     }
@@ -124,6 +127,8 @@ public final class ApiPath {
         public static final String ONBOARD_MANAGEMENT_TEAM_MEMBER = "/onboard-management-team-member";
         public static final String ONBOARD_SALES_TEAM_MEMBER = "/onboard-sales-team-member";
         public static final String ONBOARD_SUPER_ADMIN = "/onboard-superadmin";
+        public static final String MANAGEMENT = "/management-team";
+        public static final String ID = "/{id}";
     }
 
     public static class Employee {

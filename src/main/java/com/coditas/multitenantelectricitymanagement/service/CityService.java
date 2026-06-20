@@ -3,6 +3,7 @@ package com.coditas.multitenantelectricitymanagement.service;
 import com.coditas.multitenantelectricitymanagement.constants.ExceptionConstants;
 import com.coditas.multitenantelectricitymanagement.dto.city.CityRequest;
 import com.coditas.multitenantelectricitymanagement.dto.city.CityResponse;
+import com.coditas.multitenantelectricitymanagement.dto.district.DistrictResponse;
 import com.coditas.multitenantelectricitymanagement.dto.state.HeadAssignmentRequest;
 import com.coditas.multitenantelectricitymanagement.entity.City;
 import com.coditas.multitenantelectricitymanagement.entity.District;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -79,4 +81,17 @@ public class CityService {
         log.info("Successfully assigned city head to the city with id {}", savedCity.getId());
         return cityMapper.toDTO(savedCity);
     }
+
+    public CityResponse retrieveCityById(Long id) {
+        City city = cityRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.CITY_NOT_FOUND)
+        );
+        return cityMapper.toDTO(city);
+    }
+
+    public List<CityResponse> retrieveAllCities() {
+        List<City> cities = cityRepository.findAll();
+        return cityMapper.toDTOList(cities);
+    }
+
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,11 +37,11 @@ public class StateService {
     public StateResponse assignStateHead(Long stateId, HeadAssignmentRequest request) {
 
         State state = stateRepostiory.findById(stateId).orElseThrow(
-                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
+                () -> new ResourceNotFoundException(ExceptionConstants.STATE_NOT_FOUND)
         );
 
         User stateHead = userRepository.findById(request.getId()).orElseThrow(
-                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
+                () -> new ResourceNotFoundException(ExceptionConstants.USER_NOT_FOUND)
         );
 
         if (!stateHead.getRole().equals(Role.STATE_HEAD)) {
@@ -51,5 +52,17 @@ public class StateService {
 
         State updatedState = stateRepostiory.save(state);
         return stateMapper.toDTO(updatedState);
+    }
+
+    public StateResponse retrieveStateById(Long id) {
+        State state = stateRepostiory.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.STATE_NOT_FOUND)
+        );
+        return stateMapper.toDTO(state);
+    }
+
+    public List<StateResponse> retrieveAllStates() {
+        List<State> states = stateRepostiory.findAll();
+        return stateMapper.toDTOList(states);
     }
 }

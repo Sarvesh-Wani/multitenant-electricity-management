@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ClientCompanyService {
@@ -47,4 +49,22 @@ public class ClientCompanyService {
 
         return companyMapper.toDTO(savedCompany);
     }
+
+    public CompanyResponse retrieveClientById(Long id) {
+        ClientCompany company = clientCompanyRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(ExceptionConstants.CLIENT_NOT_FOUND));
+        return companyMapper.toDTO(company);
+    }
+
+    public List<CompanyResponse> retrieveAllClients() {
+        List<ClientCompany> companies = clientCompanyRepository.findAll();
+        return companyMapper.toDTOList(companies);
+    }
+
+    public List<CompanyResponse> retrieveAllClientsBySalesId(Long id) {
+        List<ClientCompany> companies = clientCompanyRepository.findBySalesTeamMemberId(id);
+        return companyMapper.toDTOList(companies);
+    }
+
+
 }

@@ -6,12 +6,16 @@ import com.coditas.multitenantelectricitymanagement.dto.user.UserResponse;
 import com.coditas.multitenantelectricitymanagement.entity.User;
 import com.coditas.multitenantelectricitymanagement.enums.Role;
 import com.coditas.multitenantelectricitymanagement.exception.DuplicateResourceException;
+import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundException;
+import com.coditas.multitenantelectricitymanagement.exception.RoleMisMatchException;
 import com.coditas.multitenantelectricitymanagement.mapper.UserMapper;
 import com.coditas.multitenantelectricitymanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -34,5 +38,20 @@ public class ServiceUtil {
         User savedUser = userRepository.save(user);
         log.info("Successfully saved user with generated id {}", savedUser.getId());
         return userMapper.toDTO(savedUser);
+    }
+
+    public UserResponse findById(Long id, Role role) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.USER_NOT_FOUND)
+        );
+        if(!user.getRole().equals(role)){
+            throw new RoleMisMatchException(ExceptionConstants.USER_ROLE_MISMATCH);
+        }
+        return userMapper.toDTO(user);
+    }
+
+    public List<UserResponse> findAll(Role role) {
+        List<User> users = userRepository.findAllByRole(role);
+        return userMapper.toDTOList(users);
     }
 }

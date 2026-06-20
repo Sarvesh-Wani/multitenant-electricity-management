@@ -6,6 +6,8 @@ import com.coditas.multitenantelectricitymanagement.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ManagementTeamService {
@@ -14,5 +16,13 @@ public class ManagementTeamService {
 
     public UserResponse createManagementTeamMember(UserRequest request) {
         return serviceUtil.persistUser(request, Role.MANAGER);
+    }
+
+    public UserResponse retrieveManagementTeamMember(Long id) {
+        return serviceUtil.findById(id, Role.MANAGER);
+    }
+
+    public List<UserResponse> retrieveAllManagementTeamMember() {
+        return serviceUtil.findAll(Role.MANAGER);
     }
 }

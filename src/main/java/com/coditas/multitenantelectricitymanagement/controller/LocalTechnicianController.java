@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -24,7 +25,7 @@ public class LocalTechnicianController {
 
     @PreAuthorize("hasRole('CITY_HEAD')")
     @PostMapping
-    public ResponseEntity<ApplicationResponse<UserResponse>> onboardLocalTechnician(@PathVariable Long cityId, @Valid @RequestBody UserRequest request) {
+    public ResponseEntity<ApplicationResponse<UserResponse>> onboardLocalTechnician(@PathVariable(name = "city-id") Long cityId, @Valid @RequestBody UserRequest request) {
         log.info("Processing request to onboard a local technician with email id {} ", request.getEmail());
         UserResponse response = localTechnicianService.onboardLocalTechnician(cityId, request);
         URI location = URI.create(ApiPath.LocalTechnician.BASE.replace("{cityId}", String.valueOf(cityId)));
@@ -33,6 +34,34 @@ public class LocalTechnicianController {
                 ApplicationResponse.<UserResponse>builder()
                         .success(true)
                         .message("Successfully onboarded new local technician!")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('CITY_HEAD')")
+    @GetMapping(ApiPath.LocalTechnician.ID)
+    public ResponseEntity<ApplicationResponse<UserResponse>> retrieveLocalTechnician(@PathVariable Long id) {
+
+        UserResponse response = localTechnicianService.retrieveLocalTechnician(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a Local Technician")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('CITY_HEAD')")
+    @GetMapping
+    public ResponseEntity<ApplicationResponse<List<UserResponse>>> retrieveAllLocalTechnician() {
+
+        List<UserResponse> response = localTechnicianService.retrieveAllLocalTechnician();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<UserResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all Local Technician")
                         .data(response)
                         .build()
         );

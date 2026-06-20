@@ -10,12 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -36,6 +34,34 @@ public class CRMController {
                 ApplicationResponse.<UserResponse>builder()
                         .success(true)
                         .message("Successfully onboarded CRM!")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('CITY_HEAD')")
+    @GetMapping(ApiPath.ID)
+    public ResponseEntity<ApplicationResponse<UserResponse>> retrieveCRM(@PathVariable Long id) {
+
+        UserResponse response = crmService.retrieveCRM(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a CRM")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('CITY_HEAD')")
+    @GetMapping
+    public ResponseEntity<ApplicationResponse<List<UserResponse>>> retrieveAllCRM() {
+
+        List<UserResponse> response = crmService.retrieveAllCRM();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<UserResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all CRMs")
                         .data(response)
                         .build()
         );

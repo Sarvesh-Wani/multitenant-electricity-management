@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPath.State.BASE)
@@ -46,6 +47,33 @@ public class StateController {
                 ApplicationResponse.<StateResponse>builder()
                         .success(true)
                         .message("State head is assigned to a state")
+                        .data(response)
+                        .build()
+        );
+    }
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @GetMapping(ApiPath.State.ID)
+    public ResponseEntity<ApplicationResponse<StateResponse>> retrieveStateById(@PathVariable Long id) {
+
+        StateResponse response = stateService.retrieveStateById(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<StateResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a state")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @GetMapping
+    public ResponseEntity<ApplicationResponse<List<StateResponse>>> retrieveAllStates() {
+
+        List<StateResponse> response = stateService.retrieveAllStates();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<StateResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all states")
                         .data(response)
                         .build()
         );

@@ -9,12 +9,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPath.BASE_PATH)
@@ -33,6 +31,34 @@ public class SalesTeamController {
                 ApplicationResponse.<UserResponse>builder()
                         .success(true)
                         .message("Onboarded a sales team member")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @GetMapping(ApiPath.SalesTeam.SALES_TEAM+ApiPath.SalesTeam.ID)
+    public ResponseEntity<ApplicationResponse<UserResponse>> retrieveSalesTeamMember(@PathVariable(name = "sid") Long id) {
+
+        UserResponse response = salesTeamService.retrieveSalesTeamMember(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a sales team member")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @GetMapping(ApiPath.SalesTeam.SALES_TEAM)
+    public ResponseEntity<ApplicationResponse<List<UserResponse>>> retrieveAllSalesTeamMember() {
+
+        List<UserResponse> response = salesTeamService.retrieveAllSalesTeamMember();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<UserResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all sales team member")
                         .data(response)
                         .build()
         );

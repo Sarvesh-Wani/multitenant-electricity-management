@@ -9,12 +9,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +32,34 @@ public class StateHeadController {
                 ApplicationResponse.<UserResponse>builder()
                         .success(true)
                         .message("State Head successfully on-boarded!")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @GetMapping(ApiPath.SalesTeam.ID)
+    public ResponseEntity<ApplicationResponse<UserResponse>> retrieveStateHead(@PathVariable(name = "sid") Long id) {
+
+        UserResponse response = stateHeadService.retrieveStateHead(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a State Head")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @GetMapping
+    public ResponseEntity<ApplicationResponse<List<UserResponse>>> retrieveAllStateHead() {
+
+        List<UserResponse> response = stateHeadService.retrieveAllStateHead();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<UserResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all state head")
                         .data(response)
                         .build()
         );

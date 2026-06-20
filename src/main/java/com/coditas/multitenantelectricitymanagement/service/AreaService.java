@@ -20,6 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -116,5 +118,10 @@ public class AreaService {
         log.info("Successfully assigned biller to area {}", area.getId());
         return areaMapper.toDTO(updatedArea);
 
+    }
+
+    public List<AreaResponse> retrieveAllAreas(Long id) {
+        List<Area> areas =areaRepository.findByCity(id);
+        return areaMapper.toDTOList(areas);
     }
 }

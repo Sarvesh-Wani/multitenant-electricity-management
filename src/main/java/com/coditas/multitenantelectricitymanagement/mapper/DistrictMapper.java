@@ -4,8 +4,12 @@ import com.coditas.multitenantelectricitymanagement.dto.district.DistrictRespons
 import com.coditas.multitenantelectricitymanagement.entity.District;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = UserMapper.class)
 public interface DistrictMapper {
 
     DistrictResponse toDTO(District savedDistrict);
+
+    List<DistrictResponse> toDTOList(List<District> districts);
 }

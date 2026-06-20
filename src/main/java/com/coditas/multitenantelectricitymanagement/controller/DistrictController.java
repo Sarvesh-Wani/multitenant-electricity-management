@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPath.District.BASE)
@@ -45,6 +46,34 @@ public class DistrictController {
                 ApplicationResponse.<DistrictResponse>builder()
                         .success(true)
                         .message("District head is assigned to a state")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasAnyRole('STATE_HEAD', 'MANAGER')")
+    @GetMapping(ApiPath.District.ID)
+    public ResponseEntity<ApplicationResponse<DistrictResponse>> retrieveDistrictById(@PathVariable Long id) {
+
+        DistrictResponse response = districtService.retrieveDistrictById(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<DistrictResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a district")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasAnyRole('STATE_HEAD', 'MANAGER')")
+    @GetMapping
+    public ResponseEntity<ApplicationResponse<List<DistrictResponse>>> retrieveAllDistricts() {
+
+        List<DistrictResponse> response = districtService.retrieveAllDistricts();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<DistrictResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all districts")
                         .data(response)
                         .build()
         );

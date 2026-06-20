@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPath.BASE_PATH)
@@ -32,6 +33,34 @@ public class ManagementTeamController {
                 ApplicationResponse.<UserResponse>builder()
                         .success(true)
                         .message("Onboarded a management team member")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @GetMapping(ApiPath.SuperAdmin.MANAGEMENT+ApiPath.SuperAdmin.ID)
+    public ResponseEntity<ApplicationResponse<UserResponse>> retrieveManagementTeamMember(@PathVariable Long id) {
+
+        UserResponse response = managementTeamService.retrieveManagementTeamMember(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a management team member")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @GetMapping(ApiPath.SuperAdmin.MANAGEMENT)
+    public ResponseEntity<ApplicationResponse<List<UserResponse>>> retrieveAllManagementTeamMember() {
+
+        List<UserResponse> response = managementTeamService.retrieveAllManagementTeamMember();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<UserResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all management team member")
                         .data(response)
                         .build()
         );

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,7 @@ public class DistrictService {
                 () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
         );
 
-        if(!districtHead.getRole().equals(Role.DISTRICT_HEAD)){
+        if (!districtHead.getRole().equals(Role.DISTRICT_HEAD)) {
             throw new RoleMisMatchException(ExceptionConstants.ROLE_MISMATCH);
         }
 
@@ -60,5 +61,17 @@ public class DistrictService {
 
         District updatedDistrict = districtRepository.save(district);
         return districtMapper.toDTO(updatedDistrict);
+    }
+
+    public DistrictResponse retrieveDistrictById(Long id) {
+        District district = districtRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.DISTRICT_NOT_FOUND)
+        );
+        return districtMapper.toDTO(district);
+    }
+
+    public List<DistrictResponse> retrieveAllDistricts() {
+        List<District> districts = districtRepository.findAll();
+        return districtMapper.toDTOList(districts);
     }
 }

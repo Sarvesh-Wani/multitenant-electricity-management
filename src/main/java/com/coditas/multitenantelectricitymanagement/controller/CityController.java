@@ -4,6 +4,7 @@ import com.coditas.multitenantelectricitymanagement.constants.ApiPath;
 import com.coditas.multitenantelectricitymanagement.dto.ApplicationResponse;
 import com.coditas.multitenantelectricitymanagement.dto.city.CityRequest;
 import com.coditas.multitenantelectricitymanagement.dto.city.CityResponse;
+import com.coditas.multitenantelectricitymanagement.dto.district.DistrictResponse;
 import com.coditas.multitenantelectricitymanagement.dto.state.HeadAssignmentRequest;
 import com.coditas.multitenantelectricitymanagement.service.CityService;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -50,6 +52,33 @@ public class CityController {
                 ApplicationResponse.<CityResponse>builder()
                         .success(true)
                         .message("City head is assigned to a District")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasAnyRole('STATE_HEAD', 'DISTRICT_HEAD', 'MANAGER')")
+    @GetMapping(ApiPath.City.ID)
+    public ResponseEntity<ApplicationResponse<CityResponse>> retrieveCityById(@PathVariable Long id) {
+
+        CityResponse response = cityService.retrieveCityById(id);
+        return ResponseEntity.ok(
+                ApplicationResponse.<CityResponse>builder()
+                        .success(true)
+                        .message("Successfully Retrieved a city")
+                        .data(response)
+                        .build()
+        );
+    }
+    @PreAuthorize("hasAnyRole('STATE_HEAD', 'DISTRICT_HEAD', 'MANAGER')")
+    @GetMapping
+    public ResponseEntity<ApplicationResponse<List<CityResponse>>> retrieveAllCities() {
+
+        List<CityResponse> response = cityService.retrieveAllCities();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<CityResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all cities")
                         .data(response)
                         .build()
         );
