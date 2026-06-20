@@ -26,7 +26,7 @@ public class StateHeadController {
     public ResponseEntity<ApplicationResponse<UserResponse>> onboardStateHead(@Valid @RequestBody UserRequest request) {
         UserResponse response = stateHeadService.createStateHead(request);
 
-        URI location = URI.create(ApiPath.StateHead.STATE_HEAD);
+        URI location = URI.create(ApiPath.StateHead.STATE_HEAD + ApiPath.SalesTeam.ID.replace("{sid}", String.valueOf(response.getId())));
 
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()

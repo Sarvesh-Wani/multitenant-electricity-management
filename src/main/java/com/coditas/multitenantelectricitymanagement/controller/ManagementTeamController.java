@@ -27,7 +27,7 @@ public class ManagementTeamController {
 
         UserResponse response = managementTeamService.createManagementTeamMember(request);
 
-        URI location = URI.create(ApiPath.BASE_PATH);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.SuperAdmin.MANAGEMENT + ApiPath.SuperAdmin.ID.replace("{id}", String.valueOf(response.getId())));
 
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()
@@ -39,7 +39,7 @@ public class ManagementTeamController {
     }
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    @GetMapping(ApiPath.SuperAdmin.MANAGEMENT+ApiPath.SuperAdmin.ID)
+    @GetMapping(ApiPath.SuperAdmin.MANAGEMENT + ApiPath.SuperAdmin.ID)
     public ResponseEntity<ApplicationResponse<UserResponse>> retrieveManagementTeamMember(@PathVariable Long id) {
 
         UserResponse response = managementTeamService.retrieveManagementTeamMember(id);

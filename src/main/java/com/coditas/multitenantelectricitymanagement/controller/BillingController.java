@@ -21,11 +21,11 @@ public class BillingController {
     private final BillingService billingService;
 
     @PreAuthorize("hasRole('BILLER')")
-    @PostMapping(ApiPath.Biller.ID+ApiPath.Biller.BILL)
-    public ResponseEntity<ApplicationResponse<BillingResponse>> billing(@PathVariable(name = "id") Long customerId, @Valid @RequestBody BillingRequest request){
+    @PostMapping(ApiPath.Biller.ID + ApiPath.Biller.BILL)
+    public ResponseEntity<ApplicationResponse<BillingResponse>> billing(@PathVariable(name = "id") Long customerId, @Valid @RequestBody BillingRequest request) {
 
         BillingResponse response = billingService.generateBill(customerId, request);
-        URI location = URI.create(ApiPath.BASE_PATH);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.Biller.ID + ApiPath.Biller.BILL.replace("{id}", String.valueOf(response.getId())));
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<BillingResponse>builder()
                         .success(true)

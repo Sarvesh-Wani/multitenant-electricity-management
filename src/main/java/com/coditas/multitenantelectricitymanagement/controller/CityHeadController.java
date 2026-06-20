@@ -29,7 +29,7 @@ public class CityHeadController {
         log.info("Received request to onboard city head with email: {}", request.getEmail());
         UserResponse response = cityHeadService.createCityHead(request);
 
-        URI location = URI.create(ApiPath.CityHead.CITY_HEAD);
+        URI location = URI.create(ApiPath.CityHead.CITY_HEAD + ApiPath.ID.replace("{id}", String.valueOf(response.getId())));
         log.info("Successfully onboarded city head. Assigned ID: {}", response.getId());
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()

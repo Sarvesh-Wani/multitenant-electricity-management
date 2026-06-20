@@ -27,7 +27,7 @@ public class StateController {
     public ResponseEntity<ApplicationResponse<StateResponse>> createState(@Valid @RequestBody StateRequest
                                                                                   request) {
         StateResponse response = stateService.createState(request);
-        URI location = URI.create(ApiPath.State.BASE);
+        URI location = URI.create(ApiPath.State.BASE+ApiPath.State.ID.replace("{id}", String.valueOf(response.getId())));
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<StateResponse>builder()
                         .success(true)

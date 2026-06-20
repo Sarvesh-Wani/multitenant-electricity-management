@@ -26,7 +26,7 @@ public class DistrictController {
     @PostMapping
     public ResponseEntity<ApplicationResponse<DistrictResponse>> createDistrict(@Valid @RequestBody DistrictRequest request) {
         DistrictResponse response = districtService.createDistrict(request);
-        URI location = URI.create(ApiPath.District.BASE);
+        URI location = URI.create(ApiPath.District.BASE+ ApiPath.District.ID.replace("{id}", String.valueOf(response.getId())));
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<DistrictResponse>builder()
                         .success(true)

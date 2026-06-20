@@ -30,7 +30,7 @@ public class BillerController {
     public ResponseEntity<ApplicationResponse<UserResponse>> onboardBiller(@Valid @RequestBody UserRequest request) {
         log.info("Received request to onboard bill serviceman with email: {}", request.getEmail());
         UserResponse response = billerService.onboardBiller(request);
-        URI location = URI.create(ApiPath.Biller.BASE);
+        URI location = URI.create(ApiPath.Biller.BASE+ApiPath.Biller.ID.replace("{id}", String.valueOf(response.getId())));
         log.info("Successfully onboarded biller. Assigned ID: {}", response.getId());
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()

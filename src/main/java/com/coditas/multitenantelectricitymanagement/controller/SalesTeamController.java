@@ -26,7 +26,7 @@ public class SalesTeamController {
     public ResponseEntity<ApplicationResponse<UserResponse>> onBoardSalesTeamMember(@Valid @RequestBody UserRequest request) {
 
         UserResponse response = salesTeamService.createSalesTeamMember(request);
-        URI location = URI.create(ApiPath.BASE_PATH);
+        URI location = URI.create(ApiPath.BASE_PATH + ApiPath.SalesTeam.SALES_TEAM + ApiPath.SalesTeam.ID.replace("{sid}", String.valueOf(response.getId())));
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()
                         .success(true)
@@ -37,7 +37,7 @@ public class SalesTeamController {
     }
 
     @PreAuthorize("hasRole('MANAGER')")
-    @GetMapping(ApiPath.SalesTeam.SALES_TEAM+ApiPath.SalesTeam.ID)
+    @GetMapping(ApiPath.SalesTeam.SALES_TEAM + ApiPath.SalesTeam.ID)
     public ResponseEntity<ApplicationResponse<UserResponse>> retrieveSalesTeamMember(@PathVariable(name = "sid") Long id) {
 
         UserResponse response = salesTeamService.retrieveSalesTeamMember(id);

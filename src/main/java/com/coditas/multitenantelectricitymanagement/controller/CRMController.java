@@ -28,7 +28,7 @@ public class CRMController {
     public ResponseEntity<ApplicationResponse<UserResponse>> onboardCRM(@Valid @RequestBody UserRequest request) {
         log.info("Received request to onboard CRM with email: {}", request.getEmail());
         UserResponse response = crmService.onboardCRM(request);
-        URI location = URI.create(ApiPath.CRM.BASE);
+        URI location = URI.create(ApiPath.CRM.BASE+ApiPath.CRM.ID.replace("{id}", String.valueOf(response.getId())));
         log.info("Successfully onboarded CRM. Assigned ID: {}", response.getId());
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<UserResponse>builder()

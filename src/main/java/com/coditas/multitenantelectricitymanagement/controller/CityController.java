@@ -30,7 +30,7 @@ public class CityController {
     public ResponseEntity<ApplicationResponse<CityResponse>> createCity(@Valid @RequestBody CityRequest request) {
         log.info("Received request to create city with name: {}", request.getName());
         CityResponse response = cityService.createCity(request);
-        URI location = URI.create(ApiPath.City.BASE);
+        URI location = URI.create(ApiPath.City.BASE+ApiPath.City.ID.replace("{id}", String.valueOf(response.getId())));
         log.info("Successfully created city with Id {}", response.getId());
         return ResponseEntity.created(location).body(
                 ApplicationResponse.<CityResponse>builder()
