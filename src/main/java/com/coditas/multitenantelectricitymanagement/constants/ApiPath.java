@@ -29,7 +29,7 @@ public final class ApiPath {
 
         public static final String BASE = BASE_PATH + "/cities/billers";
         public static final String ID = "/{id}";
-        public static final String CUSTOMER = BASE_PATH+"/customers";
+        public static final String CUSTOMER = BASE_PATH + "/customers";
         public static final String BILL = "/bills";
         public static final String QUERIES = "/queries";
     }
@@ -111,7 +111,7 @@ public final class ApiPath {
         private SalesTeam() {
         }
 
-        public static final String BASE = BASE_PATH+ "/sales-team";
+        public static final String BASE = BASE_PATH + "/sales-team";
         public static final String ID = "/{sid}";
         public static final String CLIENT_COMPANY = "/client-companies";
     }
@@ -126,10 +126,11 @@ public final class ApiPath {
         public static final String ONBOARD_SUPER_ADMIN = "/onboard-superadmin";
     }
 
-    public static class Employee{
-        private Employee(){
+    public static class Employee {
+        private Employee() {
         }
-        public static final String BASE = BASE_PATH+"/employees";
+
+        public static final String BASE = BASE_PATH + "/employees";
         public static final String SALES = "/sales";
         public static final String OPERATION_HEAD = "/operations-head";
         public static final String MANAGER1 = "/manager-1";
@@ -138,16 +139,25 @@ public final class ApiPath {
         public static final String BPOSTATE = "/bpo-states";
     }
 
-    public static class CustomerQuery{
-        private CustomerQuery(){
+    public static class CustomerQuery {
+        private CustomerQuery() {
         }
+
         public static final String BASE = "/customers/{customer-id}/queries";
         public static final String QUERIES = "/queries";
-        public static final String ID = "/{id}";
         public static final String ESCALATED_M1 = "/escalated-m1";
+        public static final String ID = "/{id}";
         public static final String ESCALATED_M2 = "/escalated-m2";
         public static final String RESOLVED = "/resolved";
 
+    }
+
+    public static class MeterConfig {
+
+        private MeterConfig() {
+        }
+
+        public static final String METER = "/meters";
     }
 
 

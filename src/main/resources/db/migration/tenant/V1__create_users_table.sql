@@ -26,9 +26,15 @@ CREATE TYPE query_status AS ENUM(
 CREATE TABLE customer_query
 (
     id          BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    query       VARCHAR(255)          NOT NULL,
-    customer_id BIGINT                NOT NULL,
+    query       VARCHAR(255) NOT NULL,
+    customer_id BIGINT       NOT NULL,
     status      query_status NOT NULL,
     issued_at   TIMESTAMPTZ default now()
         CONSTRAINT fk_customer_id FOREIGN KEY(customer_id) references public.users(id)
+);
+
+CREATE TABLE client_meter
+(
+    meter_type public.meter_type PRIMARY KEY,
+    rate_per_unit DECIMAL(2, 2) NOT NULL
 );
