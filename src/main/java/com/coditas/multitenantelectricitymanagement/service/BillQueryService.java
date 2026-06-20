@@ -17,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BillQueryService {
@@ -34,7 +36,7 @@ public class BillQueryService {
                 () -> new ResourceNotFoundException(ExceptionConstants.BILLER_NOT_FOUND)
         );
 
-        if(!biller.getRole().equals(Role.BILLER)){
+        if (!biller.getRole().equals(Role.BILLER)) {
             throw new RoleMisMatchException(ExceptionConstants.BILLER_ROLE_MISMATCH);
         }
 
@@ -45,5 +47,11 @@ public class BillQueryService {
         BillQuery savedBillQuery = billQueryRepository.save(query);
 
         return billQueryMapper.toDTO(savedBillQuery);
+    }
+
+    public List<BillQueryResponse> getAllQueries() {
+        List<BillQuery> queries = billQueryRepository.findAll();
+        return billQueryMapper.toDTOList(queries);
+
     }
 }

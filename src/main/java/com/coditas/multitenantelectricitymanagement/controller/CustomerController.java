@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPath.Customer.BASE)
@@ -31,6 +32,18 @@ public class CustomerController {
                 ApplicationResponse.<CustomerResponse>builder()
                         .success(true)
                         .message("A new Customer is successfully registered")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @GetMapping
+    public ResponseEntity<ApplicationResponse<List<CustomerResponse>>> findAllCustomers() {
+        List<CustomerResponse> response = customerService.findAllCustomers();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<CustomerResponse>>builder()
+                        .success(true)
+                        .message("Successfully Retrieved all customers")
                         .data(response)
                         .build()
         );

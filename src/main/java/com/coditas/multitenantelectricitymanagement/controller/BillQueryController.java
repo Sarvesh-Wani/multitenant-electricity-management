@@ -9,12 +9,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPath.Biller.BASE)
@@ -32,6 +30,19 @@ public class BillQueryController {
                 ApplicationResponse.<BillQueryResponse>builder()
                         .success(true)
                         .message("Successfully issued query")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('BILLER')")
+    @GetMapping(ApiPath.Biller.QUERIES)
+    public ResponseEntity<ApplicationResponse<List<BillQueryResponse>>> getAllQueries() {
+        List<BillQueryResponse> response = billQueryService.getAllQueries();
+        return ResponseEntity.ok(
+                ApplicationResponse.<List<BillQueryResponse>>builder()
+                        .success(true)
+                        .message("Successfully retrieved all the queries")
                         .data(response)
                         .build()
         );

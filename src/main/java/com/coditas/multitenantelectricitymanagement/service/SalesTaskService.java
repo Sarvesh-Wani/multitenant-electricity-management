@@ -5,9 +5,11 @@ import com.coditas.multitenantelectricitymanagement.dto.salestask.SalesTaskReque
 import com.coditas.multitenantelectricitymanagement.dto.salestask.SalesTaskResponse;
 import com.coditas.multitenantelectricitymanagement.entity.SalesTask;
 import com.coditas.multitenantelectricitymanagement.entity.User;
+import com.coditas.multitenantelectricitymanagement.enums.Role;
 import com.coditas.multitenantelectricitymanagement.enums.TaskStatus;
 import com.coditas.multitenantelectricitymanagement.exception.DuplicateResourceException;
 import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundException;
+import com.coditas.multitenantelectricitymanagement.exception.RoleMisMatchException;
 import com.coditas.multitenantelectricitymanagement.exception.UnAuthenticatedUserException;
 import com.coditas.multitenantelectricitymanagement.mapper.SalesTaskMapper;
 import com.coditas.multitenantelectricitymanagement.repository.SalesTaskRepository;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -61,5 +64,23 @@ public class SalesTaskService {
         SalesTask savedTask = salesTaskRepository.save(task);
         return salesTaskMapper.toDTO(savedTask);
 
+    }
+
+    public List<SalesTaskResponse> findAllSalesTasks() {
+        List<SalesTask> salesTasks = salesTaskRepository.findAll();
+        return salesTaskMapper.toDTOList(salesTasks);
+    }
+
+    public List<SalesTaskResponse> findSalesTasksAssignedToSalesTeam(Long id) {
+        User salesTeamMember = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.RESOURCE_NOT_FOUND)
+        );
+
+        if (!salesTeamMember.getRole().equals(Role.SALES_TEAM_MEMBER)) {
+            throw new RoleMisMatchException(ExceptionConstants.ROLE_MISMATCH);
+        }
+
+        List<SalesTask> salesTasks = salesTaskRepository.findAllBySalesMemberId(id);
+        return salesTaskMapper.toDTOList(salesTasks);
     }
 }

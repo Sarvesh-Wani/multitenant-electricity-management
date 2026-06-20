@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -74,5 +76,10 @@ public class CustomerService {
 
         return userClientCompanyMapper.toDTO(savedUserClient);
 
+    }
+
+    public List<CustomerResponse> findAllCustomers() {
+        List<Customer> customers = customerRepository.findAll();
+        return customerMapper.toDTOList(customers);
     }
 }

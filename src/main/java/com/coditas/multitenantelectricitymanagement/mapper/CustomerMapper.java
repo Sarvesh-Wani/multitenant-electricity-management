@@ -5,10 +5,14 @@ import com.coditas.multitenantelectricitymanagement.dto.customer.CustomerRespons
 import com.coditas.multitenantelectricitymanagement.entity.Customer;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = {UserMapper.class, AreaMapper.class})
 public interface CustomerMapper {
 
     Customer toEntity(CustomerRequest request);
 
     CustomerResponse toDTO(Customer savedCustomer);
+
+    List<CustomerResponse> toDTOList(List<Customer> customers);
 }
