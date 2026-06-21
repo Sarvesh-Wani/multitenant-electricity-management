@@ -10,7 +10,7 @@ import com.coditas.multitenantelectricitymanagement.enums.Role;
 import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundException;
 import com.coditas.multitenantelectricitymanagement.exception.RoleMisMatchException;
 import com.coditas.multitenantelectricitymanagement.mapper.StateMapper;
-import com.coditas.multitenantelectricitymanagement.repository.StateRepostiory;
+import com.coditas.multitenantelectricitymanagement.repository.StateRepository;
 import com.coditas.multitenantelectricitymanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,20 +23,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StateService {
 
-    private final StateRepostiory stateRepostiory;
+    private final StateRepository stateRepository;
     private final StateMapper stateMapper;
     private final UserRepository userRepository;
 
     public StateResponse createState(StateRequest request) {
         State state = stateMapper.toEntity(request);
-        State savedState = stateRepostiory.save(state);
+        State savedState = stateRepository.save(state);
         return stateMapper.toDTO(savedState);
     }
 
     @Transactional
     public StateResponse assignStateHead(Long stateId, HeadAssignmentRequest request) {
 
-        State state = stateRepostiory.findById(stateId).orElseThrow(
+        State state = stateRepository.findById(stateId).orElseThrow(
                 () -> new ResourceNotFoundException(ExceptionConstants.STATE_NOT_FOUND)
         );
 
@@ -50,19 +50,19 @@ public class StateService {
         state.setStateHead(stateHead);
         state.setAssignedAt(Instant.now());
 
-        State updatedState = stateRepostiory.save(state);
+        State updatedState = stateRepository.save(state);
         return stateMapper.toDTO(updatedState);
     }
 
     public StateResponse retrieveStateById(Long id) {
-        State state = stateRepostiory.findById(id).orElseThrow(
+        State state = stateRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException(ExceptionConstants.STATE_NOT_FOUND)
         );
         return stateMapper.toDTO(state);
     }
 
     public List<StateResponse> retrieveAllStates() {
-        List<State> states = stateRepostiory.findAll();
+        List<State> states = stateRepository.findAll();
         return stateMapper.toDTOList(states);
     }
 }

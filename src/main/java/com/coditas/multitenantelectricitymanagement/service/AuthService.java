@@ -41,8 +41,8 @@ public class AuthService {
             String accessToken = jwtService.generateAccessToken(user);
             RefreshToken refreshToken = refreshTokenService.generateRefreshToken(user);
             return LoginResponse.builder()
-                    .acessToken(accessToken)
-                    .refresToken(refreshToken.getToken())
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken.getToken())
                     .build();
         } else {
             throw new InvalidCredentialsException(ExceptionConstants.INVALID_CREDENTIAL);
@@ -56,8 +56,8 @@ public class AuthService {
         User user = verifiedRefreshToken.getUser();
         String accessToken = jwtService.generateAccessToken(user);
         return LoginResponse.builder()
-                .acessToken(accessToken)
-                .refresToken(verifiedRefreshToken.getToken())
+                .accessToken(accessToken)
+                .refreshToken(verifiedRefreshToken.getToken())
                 .build();
     }
 }

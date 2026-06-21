@@ -17,7 +17,7 @@ import com.coditas.multitenantelectricitymanagement.mapper.BPOStateMapper;
 import com.coditas.multitenantelectricitymanagement.mapper.EmployeeMapper;
 import com.coditas.multitenantelectricitymanagement.repository.BPOStateRepository;
 import com.coditas.multitenantelectricitymanagement.repository.EmployeeRepository;
-import com.coditas.multitenantelectricitymanagement.repository.StateRepostiory;
+import com.coditas.multitenantelectricitymanagement.repository.StateRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
     private final PasswordEncoder passwordEncoder;
-    private final StateRepostiory stateRepostiory;
+    private final StateRepository stateRepostiory;
     private final BPOStateRepository bpoStateRepository;
     private final BPOStateMapper bpoStateMapper;
 

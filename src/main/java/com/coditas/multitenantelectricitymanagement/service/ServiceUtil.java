@@ -29,7 +29,7 @@ public class ServiceUtil {
     public UserResponse persistUser(UserRequest request, Role role) {
         log.info("Processing for creating user {}", request.getEmail());
         if (userRepository.existsByEmail(request.getEmail())) {
-            log.warn("ObBoarding failed, user with email {} already exist", request.getEmail());
+            log.warn("Onboarding failed, user with email {} already exist", request.getEmail());
             throw new DuplicateResourceException(ExceptionConstants.DUPLICATE_RESOURCE);
         }
         User user = userMapper.toEntity(request);

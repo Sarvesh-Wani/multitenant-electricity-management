@@ -12,7 +12,7 @@ import com.coditas.multitenantelectricitymanagement.exception.ResourceNotFoundEx
 import com.coditas.multitenantelectricitymanagement.exception.RoleMisMatchException;
 import com.coditas.multitenantelectricitymanagement.mapper.DistrictMapper;
 import com.coditas.multitenantelectricitymanagement.repository.DistrictRepository;
-import com.coditas.multitenantelectricitymanagement.repository.StateRepostiory;
+import com.coditas.multitenantelectricitymanagement.repository.StateRepository;
 import com.coditas.multitenantelectricitymanagement.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class DistrictService {
     private final DistrictRepository districtRepository;
     private final DistrictMapper districtMapper;
     private final UserRepository userRepository;
-    private final StateRepostiory stateRepostiory;
+    private final StateRepository stateRepostiory;
 
     public DistrictResponse createDistrict(DistrictRequest request) {
         District district = new District();

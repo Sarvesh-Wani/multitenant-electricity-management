@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
         response.setPath(http.getRequestURL().toString());
         response.setTimestamp(Instant.now());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 ApplicationResponse.<ErrorResponse>builder()
                         .success(false)
                         .message("Exception Occurred")
@@ -51,7 +51,6 @@ public class GlobalExceptionHandler {
                         .build()
         );
     }
-
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ApplicationResponse<ErrorResponse>> handleInvalidCredentials(InvalidCredentialsException ex, HttpServletRequest http) {
