@@ -158,4 +158,21 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(RefreshTokenExpiredException.class)
+    public ResponseEntity<ApplicationResponse<ErrorResponse>> handleForbiddenException(RefreshTokenExpiredException ex, HttpServletRequest http) {
+        ErrorResponse response = new ErrorResponse();
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setMessage(ex.getMessage());
+        response.setPath(http.getRequestURL().toString());
+        response.setTimestamp(Instant.now());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                ApplicationResponse.<ErrorResponse>builder()
+                        .success(false)
+                        .message("Refresh token expired, login again")
+                        .errors(response)
+                        .build()
+        );
+    }
+
 }

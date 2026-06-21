@@ -24,5 +24,6 @@ public final class ExceptionConstants {
     public static final String CUSTOMER_ROLE_MISMATCH = "CUSTOMER_ROLE_REQUIRED_FOR_THIS_OPERATION";
     public static final String CUSTOMER_QUERY_NOT_FOUND = "CUSTOMER_QUERY_NOT_FOUND";
     public static final String USER_ROLE_MISMATCH = "THE_RETRIEVED_USER_DOES_NOT_HAVE_REQUIRED_ROLE";
+    public static final String REFRESHTOKEN_EXPIRED = "REFRESH_TOKEN_EXPIRED_LOGIN_AGAIN";
 
 }

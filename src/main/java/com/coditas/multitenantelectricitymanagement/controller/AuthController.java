@@ -2,6 +2,7 @@ package com.coditas.multitenantelectricitymanagement.controller;
 
 import com.coditas.multitenantelectricitymanagement.constants.ApiPath;
 import com.coditas.multitenantelectricitymanagement.dto.ApplicationResponse;
+import com.coditas.multitenantelectricitymanagement.dto.RefreshRequest;
 import com.coditas.multitenantelectricitymanagement.dto.login.LoginRequest;
 import com.coditas.multitenantelectricitymanagement.dto.login.LoginResponse;
 import com.coditas.multitenantelectricitymanagement.service.AuthService;
@@ -28,6 +29,20 @@ public class AuthController {
                 ApplicationResponse.<LoginResponse>builder()
                         .success(true)
                         .message("Successfully logged In")
+                        .data(response)
+                        .build()
+        );
+
+    }
+
+    @PostMapping(ApiPath.REFRESH)
+    public ResponseEntity<ApplicationResponse<LoginResponse>> refresh(@Valid @RequestBody RefreshRequest request){
+            LoginResponse response = authService.refreshToken(request.getRefreshToken());
+
+        return ResponseEntity.ok().body(
+                ApplicationResponse.<LoginResponse>builder()
+                        .success(true)
+                        .message("Successfully Refreshed the token")
                         .data(response)
                         .build()
         );
