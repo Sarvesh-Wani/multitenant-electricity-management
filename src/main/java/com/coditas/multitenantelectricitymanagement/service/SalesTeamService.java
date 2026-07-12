@@ -1,11 +1,15 @@
 package com.coditas.multitenantelectricitymanagement.service;
 
+import com.coditas.multitenantelectricitymanagement.dto.PaginationResponse;
 import com.coditas.multitenantelectricitymanagement.dto.user.UserRequest;
 import com.coditas.multitenantelectricitymanagement.dto.user.UserResponse;
 import com.coditas.multitenantelectricitymanagement.enums.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -22,8 +26,8 @@ public class SalesTeamService {
         return serviceUtil.findById(id, Role.SALES_TEAM_MEMBER);
     }
 
-    public List<UserResponse> retrieveAllSalesTeamMember() {
-        return serviceUtil.findAll(Role.SALES_TEAM_MEMBER);
+    public PaginationResponse<UserResponse> retrieveAllSalesTeamMember(int page, int size) {
+        return serviceUtil.findAll(page, size, Role.SALES_TEAM_MEMBER);
     }
 
 }

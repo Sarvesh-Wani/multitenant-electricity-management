@@ -1,6 +1,7 @@
 package com.coditas.multitenantelectricitymanagement.service;
 
 import com.coditas.multitenantelectricitymanagement.constants.ExceptionConstants;
+import com.coditas.multitenantelectricitymanagement.dto.PaginationResponse;
 import com.coditas.multitenantelectricitymanagement.dto.user.UserRequest;
 import com.coditas.multitenantelectricitymanagement.dto.user.UserResponse;
 import com.coditas.multitenantelectricitymanagement.entity.User;
@@ -12,6 +13,9 @@ import com.coditas.multitenantelectricitymanagement.mapper.UserMapper;
 import com.coditas.multitenantelectricitymanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +57,16 @@ public class ServiceUtil {
     public List<UserResponse> findAll(Role role) {
         List<User> users = userRepository.findAllByRole(role);
         return userMapper.toDTOList(users);
+    }
+
+    public PaginationResponse<UserResponse> findAll(int page, int size, Role role) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<UserResponse> users =
+                userRepository
+                        .findAllByRole(role, pageable)
+                        .map(userMapper:: toDTO);
+
+        return new PaginationResponse<>(users);
     }
 }

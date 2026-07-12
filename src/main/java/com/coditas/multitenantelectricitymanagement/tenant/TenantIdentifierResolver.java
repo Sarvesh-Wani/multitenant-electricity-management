@@ -1,7 +1,6 @@
 package com.coditas.multitenantelectricitymanagement.tenant;
 
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component

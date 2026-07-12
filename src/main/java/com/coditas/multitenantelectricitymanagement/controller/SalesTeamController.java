@@ -2,11 +2,13 @@ package com.coditas.multitenantelectricitymanagement.controller;
 
 import com.coditas.multitenantelectricitymanagement.constants.ApiPath;
 import com.coditas.multitenantelectricitymanagement.dto.ApplicationResponse;
+import com.coditas.multitenantelectricitymanagement.dto.PaginationResponse;
 import com.coditas.multitenantelectricitymanagement.dto.user.UserRequest;
 import com.coditas.multitenantelectricitymanagement.dto.user.UserResponse;
 import com.coditas.multitenantelectricitymanagement.service.SalesTeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -52,11 +54,14 @@ public class SalesTeamController {
 
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping(ApiPath.SalesTeam.SALES_TEAM)
-    public ResponseEntity<ApplicationResponse<List<UserResponse>>> retrieveAllSalesTeamMember() {
+    public ResponseEntity<ApplicationResponse<PaginationResponse<UserResponse>>> retrieveAllSalesTeamMember(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
 
-        List<UserResponse> response = salesTeamService.retrieveAllSalesTeamMember();
+        PaginationResponse<UserResponse> response = salesTeamService.retrieveAllSalesTeamMember(page, size);
         return ResponseEntity.ok(
-                ApplicationResponse.<List<UserResponse>>builder()
+                ApplicationResponse.<PaginationResponse<UserResponse>>builder()
                         .success(true)
                         .message("Successfully Retrieved all sales team member")
                         .data(response)
